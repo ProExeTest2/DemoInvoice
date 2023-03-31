@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { hp, isIos, wp } from "../helper/Global/responsive";
+import { hp } from "../helper/Global/responsive";
 import { colors } from "../helper/colors";
 
 const FloatingTitleTextInput = ({
+  props,
   label,
   mainContainerStyle,
   returnKeyType,
@@ -22,10 +23,11 @@ const FloatingTitleTextInput = ({
   PasswordSecure,
   onPress,
   secureTextEntry,
+  keyboardType,
+  maxLength,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const getFocus = new Animated.Value(Value !== "" ? 1 : 0);
-
   Animated.timing(getFocus, {
     toValue: isFocused || Value !== "" ? 1 : 0,
     duration: 200,
@@ -49,6 +51,7 @@ const FloatingTitleTextInput = ({
       </Animated.Text>
       <View style={styles.inputContainer}>
         <TextInput
+          {...props}
           value={Value}
           autoFocus={autoFocus}
           ref={refs}
@@ -61,6 +64,8 @@ const FloatingTitleTextInput = ({
           onBlur={() => setIsFocused(false)}
           selectionColor={colors.black}
           secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
         />
         <TouchableOpacity onPress={onPress}>{PasswordSecure}</TouchableOpacity>
       </View>
@@ -74,14 +79,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingTop: hp(1.5),
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray,
+    borderBottomColor: colors.black,
     height: 50,
     marginVertical: 10,
   },
   labelStyle: {
     position: "absolute",
     // left: 0,
-    color: colors.gray,
+    color: colors.black,
     fontSize: 15,
     fontWeight: "500",
     paddingLeft: 10,

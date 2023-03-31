@@ -1,19 +1,27 @@
-import { Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
-import Header from "../../components/Header/Header";
+import { Alert, Keyboard, SafeAreaView, StyleSheet, Text } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import Header from "../../components/Common/Header/Header";
 import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FloatingLableTextInput from "../../components/FloatingLableTextInput";
-import CircleBlackButton from "../../components/CircleBlackButton";
+import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import CheckBox from "react-native-check-box";
-import TitleHeader from "../../components/Header/TitleHeader";
+import TitleHeader from "../../components/Common/Header/TitleHeader";
 import {
+  createCustomer,
+  updateCustomer,
   validateEmail,
   validateGSTNumber,
   validatePancard,
 } from "../../helper/Global/functions";
-const AddCustomer = () => {
+import { hp, wp } from "../../helper/Global/responsive";
+import { useDispatch } from "react-redux";
+import {
+  createCustomerAction,
+  updateCustomerAction,
+} from "../../redux/action/CustomerAction";
+const AddCustomer = ({ route, navigation }) => {
   const {
     phoneRef,
     emailRef,
@@ -28,51 +36,145 @@ const AddCustomer = () => {
     townRef1,
     stateRef1,
   } = useRef();
+  const dispatch = useDispatch();
+  const CustomerDetails = route?.params?.CustomerData;
 
-  const [customername, setCustomername] = useState("");
-  const [phonenumber, setPhoneNumber] = useState("");
-  const [emailaddress, setEmailAddress] = useState("");
-  const [pannumber, setPanNumber] = useState(""); //BNZPM2501F
-  const [gstnumber, setGstNumber] = useState("");
-  const [gststatecode, setGstStateCode] = useState("");
-  const [address, setAddress] = useState("");
-  const [town, setTown] = useState("");
-  const [state, setState] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [town1, setTown1] = useState("");
-  const [state1, setState1] = useState("");
+  const [customername, setCustomername] = useState(
+    CustomerDetails?.customername || ""
+  );
+  const [phonenumber, setPhoneNumber] = useState(
+    CustomerDetails?.phonenumber || ""
+  );
+  const [emailaddress, setEmailAddress] = useState(
+    CustomerDetails?.emailaddress || ""
+  );
+  const [pannumber, setPanNumber] = useState(
+    CustomerDetails?.pannumber || "BNZPM2501F"
+  ); //BNZPM2501F
+  const [gstnumber, setGstNumber] = useState(
+    CustomerDetails?.gstnumber || "22AAAAA0000A1Z5"
+  ); //22AAAAA0000A1Z5
+  const [gststate, setGstState] = useState(CustomerDetails?.gststate || "");
+  const [gststatecode, setGstStateCode] = useState(
+    CustomerDetails?.gststatecode || ""
+  );
+  const [address, setAddress] = useState(CustomerDetails?.address || "");
+  const [town, setTown] = useState(CustomerDetails?.town || "");
+  const [state, setState] = useState(CustomerDetails?.state || "");
+  const [address1, setAddress1] = useState(CustomerDetails?.address1 || "");
+  const [town1, setTown1] = useState(CustomerDetails?.town1 || "");
+  const [state1, setState1] = useState(CustomerDetails?.state1 || "");
   const [asAbove, setAsAbove] = useState(false);
 
-  const checkboxOnSelect = () => {
-    setAsAbove(!asAbove);
-    if (!asAbove) {
-      setTown1(town);
-      setAddress1(address);
-      setState1(state);
+  useEffect(() => {
+    isAddressSame();
+    console.log("");
+  }, [address1, town1, state1]);
+
+  const isAddressSame = () => {
+    if (address1 == address && town == town1 && state == state1) {
+      setAsAbove(true);
     } else {
+      setAsAbove(false);
+    }
+  };
+
+  const checkboxOnSelect = () => {
+    if (asAbove) {
       setTown1("");
       setAddress1("");
       setState1("");
+    } else {
+      setTown1(town);
+      setAddress1(address);
+      setState1(state);
+    }
+    setAsAbove(!asAbove);
+  };
+  const addCustomer = (task) => {
+    if (
+      (customername,
+      phonenumber,
+      emailaddress,
+      pannumber,
+      gstnumber,
+      gststate,
+      gststatecode,
+      address,
+      town,
+      state,
+      address1,
+      town1,
+      state1 != null)
+    ) {
+      if (task == "create") {
+        dispatch(
+          createCustomerAction({
+            customername: customername,
+            phonenumber: phonenumber,
+            emailaddress: emailaddress,
+            pannumber: pannumber,
+            gstnumber: gstnumber,
+            gststate: gststate,
+            gststatecode: gststatecode,
+            address: address,
+            town: town,
+            state: state,
+            address1: address1,
+            town1: town1,
+            state1: state1,
+          })
+        );
+        navigation.goBack();
+      } else if (task == "update") {
+        dispatch(
+          updateCustomerAction(
+            {
+              customername: customername,
+              phonenumber: phonenumber,
+              emailaddress: emailaddress,
+              pannumber: pannumber,
+              gstnumber: gstnumber,
+              gststate: gststate,
+              gststatecode: gststatecode,
+              address: address,
+              town: town,
+              state: state,
+              address1: address1,
+              town1: town1,
+              state1: state1,
+            },
+            CustomerDetails?.key
+          )
+        );
+        navigation.pop(2);
+      }
+    } else {
+      Alert.alert("Fill All Field");
     }
   };
   return (
     <SafeAreaView style={styles.maincontainer}>
-      <Header isBack={true} backtext={strings.cancle} />
+      <Header
+        isBack={true}
+        backtext={strings.cancle}
+        onBackPress={() => navigation.goBack()}
+      />
+      <TitleHeader title={strings.addcustomer} />
       <KeyboardAwareScrollView style={{ padding: 15 }}>
-        <TitleHeader title={strings.addcustomer} />
         <FloatingLableTextInput
           style={styles.textinput}
+          label={strings.customername}
+          Value={customername}
           returnKeyType={"next"}
+          editable={true}
+          blurOnSubmit={false}
           onSubmitEditing={() => {
             phoneRef?.current?.focus();
           }}
-          Value={customername}
-          label={strings.customername}
-          editable={true}
           onChangeText={(txt) => {
             setCustomername(txt);
           }}
-          blurOnSubmit={false}
         />
         <FloatingLableTextInput
           style={styles.textinput}
@@ -124,7 +226,9 @@ const AddCustomer = () => {
           blurOnSubmit={false}
           maxLength={10}
         />
+
         <Text style={styles.title}>{strings.customergstdetail}</Text>
+
         <FloatingLableTextInput
           style={styles.textinput}
           max
@@ -149,7 +253,7 @@ const AddCustomer = () => {
           onSubmitEditing={() => {
             gststatecodeRef?.current?.focus();
           }}
-          Value={gststatecode}
+          Value={gststate}
           label={strings.gststate}
           editable={true}
           onChangeText={(txt) => {
@@ -172,7 +276,9 @@ const AddCustomer = () => {
           blurOnSubmit={false}
           maxLength={2}
         />
+
         <Text style={styles.title}>{strings.billingaddress}</Text>
+
         <FloatingLableTextInput
           style={styles.textinput}
           returnKeyType={"next"}
@@ -215,16 +321,18 @@ const AddCustomer = () => {
           }}
           blurOnSubmit={false}
         />
+
         <CheckBox
           style={styles.checkbox}
           onClick={() => {
             checkboxOnSelect();
           }}
           isChecked={asAbove}
-          rightText={strings.shippingaddress}
+          rightText={strings.shippingaddressasbilingaddress}
           rightTextStyle={styles.title}
           checkBoxColor={colors.gray}
         />
+
         <FloatingLableTextInput
           style={styles.textinput}
           returnKeyType={"next"}
@@ -235,6 +343,7 @@ const AddCustomer = () => {
           label={strings.address}
           editable={true}
           onChangeText={(txt) => {
+            isAddressSame();
             setAddress1(txt);
           }}
           blurOnSubmit={false}
@@ -250,7 +359,7 @@ const AddCustomer = () => {
           editable={true}
           onChangeText={(txt) => {
             setTown1(txt);
-            setAsAbove(false);
+            isAddressSame();
           }}
           blurOnSubmit={false}
         />
@@ -265,11 +374,25 @@ const AddCustomer = () => {
           editable={true}
           onChangeText={(txt) => {
             setState1(txt);
+            isAddressSame();
           }}
           blurOnSubmit={false}
         />
       </KeyboardAwareScrollView>
-      <CircleBlackButton title={"S U B M I T"} onPress={() => loginUser()} />
+
+      <CircleBlackButton
+        containerStyle={styles.btnsubmit}
+        title={
+          CustomerDetails != null || undefined
+            ? strings.btnupdate
+            : strings.btnsubmit
+        }
+        onPress={() =>
+          CustomerDetails != null || undefined
+            ? addCustomer("update")
+            : addCustomer("create")
+        }
+      />
     </SafeAreaView>
   );
 };
@@ -294,4 +417,5 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  btnsubmit: { height: hp(11.3), width: wp(23.7) },
 });

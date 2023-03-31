@@ -1,38 +1,40 @@
-import {
-  Alert,
-  Button,
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import React, { useRef, useState } from "react";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FloatingLableTextInput from "../../components/FloatingLableTextInput";
 import strings from "../../helper/strings";
 import { icons } from "../../helper/icons";
 import { colors } from "../../helper/colors";
-import CircleBlackButton from "../../components/CircleBlackButton";
+import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail } from "../../helper/Global/functions";
 import { useDispatch } from "react-redux";
-import { saveloginAction } from "../../redux/action/UserLoginAction";
+import auth from "@react-native-firebase/auth";
+import { hp } from "../../helper/Global/responsive";
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState(""); //aaa@a.in
-  const [password, setPassword] = useState(""); //1234567
+  const [email, setEmail] = useState("priyanka@proexe.in"); //priyanka@proexe.in
+  const [password, setPassword] = useState("123456"); //123456
   const passwordRef = useRef();
   const [passwordShow, setPasswordShow] = useState(false);
-  const dispatch = useDispatch();
   const loginUser = () => {
-    // if ((email && password !== null) || undefined) {
-    //   dispatch(saveloginAction({ email: email, password: password }));
-    //   navigation.navigate("AddCustomer");
-    // } else {
-    //   Alert.alert("Enter Valid Credentials");
-    // }
-    navigation.navigate("AddCustomer");
+    if ((email && password !== null) || undefined) {
+      if (validateEmail(email)) {
+        auth()
+          .signInWithEmailAndPassword(email, password)
+          .then((user) => (user ? navigation.replace("Dashboard") : ""))
+          .catch((error) => {
+            console.log(error);
+            if (error.code === "auth/invalid-email") Alert.alert(error.message);
+            else if (error.code === "auth/user-not-found")
+              Alert.alert("No User Found");
+            else Alert.alert("Please check your email id or password");
+          });
+      } else {
+        console.log("Enter valid email");
+      }
+    } else {
+      Alert.alert("Enter Valid Credentials");
+    }
   };
 
   return (
@@ -42,7 +44,7 @@ const Login = ({ navigation }) => {
         <Text style={styles.title}>ELIT Login</Text>
         <KeyboardAwareScrollView>
           <FloatingLableTextInput
-            mainContainerStyle={{ marginVertical: 40 }}
+            mainContainerStyle={{ marginVertical: hp(4) }}
             returnKeyType={"next"}
             onSubmitEditing={() => {
               validateEmail(email)
@@ -72,7 +74,7 @@ const Login = ({ navigation }) => {
             PasswordSecure={
               <Image
                 source={passwordShow ? icons.showpassword : icons.hidepassword}
-                style={{ height: 24, width: 24, marginBottom: 15 }}
+                style={styles.passwordshowicon}
               />
             }
             onPress={() => {
@@ -81,7 +83,11 @@ const Login = ({ navigation }) => {
           />
         </KeyboardAwareScrollView>
       </View>
-      <CircleBlackButton title={"N E X T"} onPress={() => loginUser()} />
+      <CircleBlackButton
+        containerStyle={styles.blackbtn}
+        title={"N E X T"}
+        onPress={() => loginUser()}
+      />
     </SafeAreaView>
   );
 };
@@ -92,7 +98,6 @@ const styles = StyleSheet.create({
   maincontainer: {
     flex: 1,
     backgroundColor: colors.white,
-    // justifyContent: "center",
   },
   title: {
     fontSize: 40,
@@ -104,9 +109,11 @@ const styles = StyleSheet.create({
   appicon: {
     height: 190,
     width: 140,
-    // backgroundColor: "red",
-    // position: "absolute",
-    // zIndex: 1,
     marginTop: 20,
+  },
+  passwordshowicon: { height: 24, width: 24, marginBottom: 15 },
+  blackbtn: {
+    height: hp(10),
+    width: hp(10),
   },
 });

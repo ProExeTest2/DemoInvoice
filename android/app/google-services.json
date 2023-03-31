@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "829227770804",
+    "project_id": "demoinvoice-9f1dc",
+    "storage_bucket": "demoinvoice-9f1dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829227770804:android:cd2b4493af64f133f008e1",
+        "android_client_info": {
+          "package_name": "com.demoinvoice1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829227770804-vn5ruehg9onsgk6joc0te3085j68bsf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demoinvoice1",
+            "certificate_hash": "656355c1aa4393a99e9582d2914555e40c8d2244"
+          }
+        },
+        {
+          "client_id": "829227770804-vovv8d0rnoi5s6b54jp08h9773eh9aaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8obSrE1vn8G9khGlymXkl6vohLwISCeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829227770804-vovv8d0rnoi5s6b54jp08h9773eh9aaf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "829227770804-d58ame2licitktv028ogf96djq1ikg7b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.DemoInvoice1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

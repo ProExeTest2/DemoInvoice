@@ -1,16 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors } from "../helper/colors";
 import { hp, wp } from "../helper/Global/responsive";
 
-const DashboardCard = ({ count, title, background }) => {
+const DashboardCard = ({ count, title, background, onPress }) => {
+  console.log("count====>", count);
   return (
-    <View
+    <Pressable
       style={[styles.maincontainer, { backgroundColor: background || "pink" }]}
+      onPress={onPress}
     >
-      <Text style={styles.counttext}>{count || "-"}</Text>
+      <Text style={styles.counttext}>{count}</Text>
       <Text style={styles.title}>{title}</Text>
-    </View>
+    </Pressable>
   );
 };
 

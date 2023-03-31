@@ -1,5 +1,15 @@
 export const icons = {
-  appicon: require("../icons/appicon.png"),
-  hidepassword: require("../icons/hide.png"),
-  showpassword: require("../icons/show.png"),
+  appicon: require("../../assets/icons/appicon.png"),
+  hidepassword: require("../../assets/icons/hide.png"),
+  showpassword: require("../../assets/icons/show.png"),
+  delete: require("../../assets/icons/delete.png"),
+  edit: require("../../assets/icons/edit.png"),
+  minus: require("../../assets/icons/minus.png"),
+  plus: require("../../assets/icons/plus.png"),
+  upload: require("../../assets/icons/upload.png"),
+  addproduct: require("../../assets/icons/addproduct.png"),
+  shortrightarrow: require("../../assets/icons/shortrightarrow.png"),
+  longrightarrow: require("../../assets/icons/longrightarrow.png"),
+  rupee: require("../../assets/icons/rupee.png"),
+  search: require("../../assets/icons/loupe.png"),
 };
