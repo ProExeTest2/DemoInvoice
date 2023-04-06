@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { AppRegistry, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
@@ -11,8 +11,8 @@ import { hp } from "../../helper/Global/responsive";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedCustomerAction } from "../../redux/action/CustomerAction";
-const Customer = ({ navigation, route }) => {
-  const customers = useSelector((state) => state.customer.CustomerData);
+function Customer({ navigation, route }) {
+  const customers = useSelector((state) => state?.customer?.CustomerData);
 
   const [customerList, setCustomerList] = useState(customers);
 
@@ -43,8 +43,8 @@ const Customer = ({ navigation, route }) => {
           console.log("itemitem", route?.params?.selection);
           return (
             <CustomerList
-              name={item.customername}
-              phonenumber={item.phonenumber}
+              name={item?.customername}
+              phonenumber={item?.phonenumber}
               onPress={() => {
                 if (route?.params?.selection == true) {
                   //dispatch({ type: GET_SELECTED_CUSTOMER, payload: item });
@@ -69,10 +69,10 @@ const Customer = ({ navigation, route }) => {
       )}
     </SafeAreaView>
   );
-};
+}
 
 export default Customer;
-
+//AppRegistry.registerComponent("Customer", () => Customer);
 const styles = StyleSheet.create({
   maincontainer: {
     flex: 1,

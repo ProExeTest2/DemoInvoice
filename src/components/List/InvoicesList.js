@@ -7,7 +7,7 @@ const InvoicesList = ({ name, price, invoice, duetime }) => {
   return (
     <View style={styles.maincontainer}>
       <View style={styles.avatar}>
-        <Text style={styles.char}>{name.charAt(0)}</Text>
+        <Text style={styles.char}>{name?.charAt(0)}</Text>
       </View>
       <View style={{ flex: 1 }}>
         <Text style={styles.nameprice}>{name}</Text>

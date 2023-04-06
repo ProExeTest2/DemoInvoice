@@ -14,6 +14,7 @@ import {
   validateEmail,
   validateGSTNumber,
   validatePancard,
+  sendNotification,
 } from "../../helper/Global/functions";
 import { hp, wp } from "../../helper/Global/responsive";
 import { useDispatch } from "react-redux";
@@ -125,7 +126,8 @@ const AddCustomer = ({ route, navigation }) => {
             state1: state1,
           })
         );
-        navigation.goBack();
+        sendNotification(customername, "New Customer Created!");
+        navigation.pop(2);
       } else if (task == "update") {
         dispatch(
           updateCustomerAction(
@@ -153,6 +155,9 @@ const AddCustomer = ({ route, navigation }) => {
       Alert.alert("Fill All Field");
     }
   };
+
+  //const sendNotification = () => {};
+
   return (
     <SafeAreaView style={styles.maincontainer}>
       <Header

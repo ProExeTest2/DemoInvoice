@@ -9,7 +9,9 @@ import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import { GET_CUSTOMER, GET_INVOICE } from "../../redux/action/types";
 import { useState } from "react";
-
+import notifee, { AndroidStyle } from "@notifee/react-native";
+import { icons } from "../icons";
+import { navigate } from "../../navigation/RootNavigation";
 const customerCollection = firestore().collection("Customer");
 const productCollection = firestore().collection("Product");
 const invoiceCollection = firestore().collection("Invoice");
@@ -96,20 +98,22 @@ export const updateCustomer = (customer, key) => {
     });
 };
 
-export const getCustomer = (request) => async (dispatch) => {
+export const getCustomer = () => {
+  //export const getCustomer = (request) => async (dispatch) => {
   const temp = [];
   customerCollection.onSnapshot((snap) => {
     snap.forEach((doc) => {
       temp.push({ ...doc.data(), key: doc.id });
-      // console.log("DOC ", temp);
     });
+    console.log("DOC ", temp.length);
+    return temp;
   });
-  // return temp
-  if (request?.onSuccess) {
-    request?.onSuccess(temp);
-  }
+  //console.log("TEMP Customer", temp);
+  // if (request?.onSuccess) {
+  //   request?.onSuccess(temp);
+  // }
   console.log("TEMP Customer", temp);
-  dispatch({ type: GET_CUSTOMER, payload: temp });
+  //dispatch({ type: GET_CUSTOMER, payload: temp });
 };
 
 export const deleteCustomer = (key) => {
@@ -164,9 +168,9 @@ export const deleteProduct = (key) => {
     });
 };
 
-export const createInvoice = (invoice) => {
+export const createInvoice = (invoice, key) => {
   invoiceCollection
-    .doc("5")
+    .doc(key)
     .set(invoice)
     .then(() => {
       Alert.alert("a new invoice added");
@@ -226,4 +230,86 @@ export const uploadImage = async (imageData) => {
     });
   //setImgDownloadUrl(url);
   //Alert.alert(url);
+};
+
+export const sendNotification = async (
+  title,
+  body,
+  mainComponent,
+  bigPicture,
+  bigText,
+  styleType
+) => {
+  await notifee.requestPermission();
+
+  const channelId = await notifee.createChannel({
+    id: "default",
+    name: "Default Channel",
+    sound: "notification",
+  });
+
+  await notifee.displayNotification({
+    title:
+      '<p style="color: #4caf50;"><b>' + title + "</span></p></b></p> &#128576",
+    body: body,
+    android: {
+      channelId,
+      smallIcon: "ic_small_icon",
+      largeIcon: require("../../../assets/Images/img1.jpeg"),
+      sound: "notification",
+      pressAction: {
+        id: "default",
+        //mainComponent: mainComponent,
+      },
+      actions: [
+        {
+          title: "Reply",
+          icon: "https://my-cdn.com/icons/reply.png",
+          pressAction: {
+            id: "reply",
+          },
+          input: {
+            allowFreeFormInput: true, // set to false
+            choices: ["Yes", "No", "Maybe"],
+            placeholder: "Reply...",
+          }, // enable free text input
+        },
+        {
+          title: "Delete",
+          icon: "https://my-cdn.com/icons/reply.png",
+          pressAction: {
+            id: "reply",
+          },
+          input: {
+            allowFreeFormInput: true, // set to false
+            choices: ["Yes", "No", "Maybe"],
+            placeholder: "Reply...",
+          }, // enable free text input
+        },
+      ],
+    },
+    ios: {
+      foregroundPresentationOptions: {
+        badge: true,
+        sound: true,
+        banner: true,
+        list: true,
+      },
+      attachments: [
+        {
+          url: icons.rupee,
+        },
+        {
+          url: "../notification.mp3",
+          thumbnailTime: 3,
+        },
+      ],
+    },
+  });
+};
+
+export const handleClick = () => {
+  console.log("handleClick called---------");
+  // navigationRef?.current?.navigate("AddProduct");
+  navigate("AddProduct");
 };

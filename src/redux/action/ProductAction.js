@@ -11,15 +11,16 @@ import {
   UPDATE_PRODUCT,
 } from "../action/types";
 
-export const getProductAction = () => async (dispatch) => {
-  const productdatas = getProduct();
-  dispatch({ type: GET_PRODUCT, payload: productdatas });
+export const getProductAction = (products) => async (dispatch) => {
+  //const productdatas = getProduct();
+  dispatch({ type: GET_PRODUCT, payload: products });
 };
 
-export const getSelectedProductAction = (product) => async (dispatch) => {
-  //createCustomer(customer);
-  dispatch({ type: GET_SELECTED_PRODUCTS, payload: product });
-};
+export const getSelectedProductAction =
+  (product, totalvalue) => async (dispatch) => {
+    //createCustomer(customer);
+    dispatch({ type: GET_SELECTED_PRODUCTS, payload: product });
+  };
 
 export const createProductAction = (customer) => async (dispatch) => {
   const newcustomer = createProduct(customer);

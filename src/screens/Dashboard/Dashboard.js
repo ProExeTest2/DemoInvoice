@@ -1,27 +1,55 @@
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import React, { useEffect } from "react";
+import {
+  Alert,
+  Image,
+  PushNotificationIOS,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import DashboardCard from "../../components/DashboardCard";
 import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
 import { hp } from "../../helper/Global/responsive";
 import auth from "@react-native-firebase/auth";
-import { getCustomer, getInvoice } from "../../helper/Global/functions";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductAction } from "../../redux/action/ProductAction";
 import { getInvoiceActions } from "../../redux/action/InvoiceAction";
-
+import firestore from "@react-native-firebase/firestore";
+import { getCustomerAction } from "../../redux/action/CustomerAction";
+import PushNotification from "react-native-push-notification";
+import messaging from "@react-native-firebase/messaging";
+import notifee, { AndroidStyle } from "@notifee/react-native";
+import { icons } from "../../helper/icons";
+import { sendNotification } from "../../helper/Global/functions";
 const Dashboard = ({ navigation }) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+
   const customers = useSelector((state) => state?.customer?.CustomerData);
   const products = useSelector((state) => state?.product?.ProductData);
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
-  // const invoicedata = invoices.InvoiceData;
-  useEffect(() => {}, [customers]);
-  useEffect(() => {}, [products]);
-  useEffect(() => {}, [invoices]);
+
+  const [token, setToken] = useState();
+
+  const getFcmToken = async () => {
+    try {
+      const newFcmToken = await messaging().getToken();
+      console.log("TOKEN:: ", newFcmToken);
+      setToken(newFcmToken);
+      return newFcmToken;
+    } catch (error) {
+      console.error("TOKEN ERROR:: ", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+
   useEffect(() => {
     if (isFocused) {
       getCurrentUser();
@@ -33,34 +61,70 @@ const Dashboard = ({ navigation }) => {
           console.log("Error iof ger customer :: ", err);
         },
       };
-      dispatch(getCustomer(request));
-      console.log("USER 1");
-      dispatch(getInvoiceActions());
-      console.log("USER 2");
-      dispatch(getProductAction());
+
+      firestore()
+        .collection("Customer")
+        .onSnapshot((snap) => {
+          const temp = [];
+          snap.forEach((doc) => {
+            temp.push({ ...doc.data(), key: doc.id });
+          });
+          console.log("DOC ", temp.length);
+          dispatch(getCustomerAction(temp));
+        });
+
+      firestore()
+        .collection("Product")
+        .onSnapshot((snap) => {
+          const temp = [];
+          snap.forEach((doc) => {
+            temp.push({ ...doc.data(), key: doc.id });
+          });
+          console.log("DOC ", temp.length);
+          dispatch(getProductAction(temp));
+        });
+
+      firestore()
+        .collection("Invoice")
+        .onSnapshot((snap) => {
+          const temp = [];
+          snap.forEach((doc) => {
+            temp.push({ ...doc.data(), key: doc.id });
+          });
+          console.log("DOC ", temp.length);
+          dispatch(getInvoiceActions(temp));
+        });
     }
+    //PushNotification.configure({})
   }, [isFocused]);
 
-  const getCurrentUser = () => {
+  const getCurrentUser = async () => {
     navigation.replace(auth().currentUser ? "" : "Login");
   };
-
   const cardOnPress = (routeName) => {
     navigation.navigate(routeName);
   };
-  console.log("customers at dashboard", invoices);
+  const getNotification = async () => {
+    sendNotification(
+      "IMAGE NOTIFICATION",
+      "inbox style notifications are used to display multiple lines of content inside of a single notification. Depending on space, the device will show as many lines of text as possible, and hide the remainder.To set a small icon, add a smallIcon property to the notification body.",
+      "Products"
+      // require("../../../assets/Images/img1.jpeg")
+    );
+  };
+
   return (
     <SafeAreaView style={styles.maincontainer}>
       <TitleHeader title={"Dashboard"} style={{ marginTop: hp(3.5) }} />
       <View style={styles.cardcontainer}>
         <DashboardCard
-          count={invoices?.length}
+          count={invoices?.length} //{invoices?.length}
           title={strings.invoices}
           background={colors.card1}
           onPress={() => cardOnPress("Invoices")}
         />
         <DashboardCard
-          count={customers?.length}
+          count={customers?.length} //{customers?.length}
           title={strings.customer}
           background={colors.card2}
           onPress={() => {
@@ -70,7 +134,7 @@ const Dashboard = ({ navigation }) => {
       </View>
       <View style={styles.cardcontainer}>
         <DashboardCard
-          count={products.length}
+          count={products?.length} //{products.length}
           title={strings.products}
           background={colors.card3}
           onPress={() => {
@@ -81,6 +145,10 @@ const Dashboard = ({ navigation }) => {
           count={10}
           title={strings.payments}
           background={colors.card4}
+          onPress={() => {
+            console.log("BEFORE0");
+            getNotification();
+          }}
         />
       </View>
     </SafeAreaView>

@@ -20,16 +20,8 @@ import { FlatList } from "react-native-gesture-handler";
 
 const Invoices = ({ navigation }) => {
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
+  //const [invoices, setInvoices] = useState();
   const [isPaid, setIsPaid] = useState(false);
-  const [newInvoiceID, setNewInvoiceID] = useState();
-  useEffect(() => {
-    let maxid = 0;
-    invoices.map(function (obj) {
-      if (obj.key > maxid) maxid = obj.key;
-    });
-    console.log("MAX ", maxid);
-    setNewInvoiceID(maxid);
-  }, [invoices]);
 
   console.log("INVOICES ", invoices);
   return (
@@ -42,9 +34,7 @@ const Invoices = ({ navigation }) => {
       />
       <TitleHeader
         title={strings.invoices}
-        onPress={() => {
-          //getmaxInvoice();
-        }}
+        onPress={() => {}}
         rightIcon={<Image style={styles.searchicon} source={icons.search} />}
       />
       <View style={styles.optionbuttoncontainer}>
@@ -83,17 +73,10 @@ const Invoices = ({ navigation }) => {
         }}
       />
       <Text style={styles.title}>{strings.viewed}</Text>
-      <InvoicesList
-        name={"Jonah Gulek"}
-        price={"920"}
-        invoice={"invoice 0028"}
-        duetime={"Due 20 Days ago"}
-      />
+
       <CircleBlackButton
         containerStyle={styles.blackbtn}
-        onPress={() =>
-          navigation.navigate("CreateInvoice", { newInvoiceID: newInvoiceID })
-        }
+        onPress={() => navigation.navigate("CreateInvoice")}
         icon={icons.plus}
       />
     </SafeAreaView>

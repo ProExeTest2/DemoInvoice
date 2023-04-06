@@ -12,10 +12,10 @@ import {
   UPDATE_CUSTOMER,
 } from "./types";
 
-// export const getCustomerAction = () => async (dispatch) => {
-//   const customerdatas = getCustomer();
-//   dispatch({ type: GET_CUSTOMER, payload: customerdatas });
-// };
+export const getCustomerAction = (customers) => async (dispatch) => {
+  //const customerdatas = getCustomer();
+  dispatch({ type: GET_CUSTOMER, payload: customers });
+};
 
 export const getSelectedCustomerAction = (customer) => async (dispatch) => {
   //createCustomer(customer);

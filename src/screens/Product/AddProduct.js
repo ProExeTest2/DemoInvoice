@@ -104,31 +104,18 @@ const AddProduct = ({ route, navigation }) => {
           ? productImage.replace("file://", "")
           : productImage.replace("file:///", "");
       console.log("uploadUri", uploadUri);
-      await imageRef.putFile(uploadUri).catch((error) => {
-        throw error;
-      });
-      await imageRef
-        .getDownloadURL()
-        .then((response) => {
-          console.log("RESPONSE ", response);
-          if (task == "create") {
-            dispatch(
-              createProductAction({
-                productname: productname,
-                description: description,
-                stock: stock,
-                price: price,
-                igst: igst,
-                hsncode: hsncode,
-                productimage: response,
-              })
-            );
-            navigation.goBack();
-          } else if (task == "update") {
-            console.log("IN update,");
-            dispatch(
-              updateProductAction(
-                {
+      const isUrl = uploadUri.match("https://");
+      if (!isUrl) {
+        await imageRef.putFile(uploadUri).catch((error) => {
+          throw error;
+        });
+        await imageRef
+          .getDownloadURL()
+          .then((response) => {
+            console.log("RESPONSE ", response);
+            if (task == "create") {
+              dispatch(
+                createProductAction({
                   productname: productname,
                   description: description,
                   stock: stock,
@@ -136,16 +123,49 @@ const AddProduct = ({ route, navigation }) => {
                   igst: igst,
                   hsncode: hsncode,
                   productimage: response,
-                },
-                ProductDetails.key
-              )
-            );
-            navigation.pop(2);
-          }
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
+                })
+              );
+              navigation.goBack();
+            } else if (task == "update") {
+              console.log("IN update,");
+              dispatch(
+                updateProductAction(
+                  {
+                    productname: productname,
+                    description: description,
+                    stock: stock,
+                    price: price,
+                    igst: igst,
+                    hsncode: hsncode,
+                    productimage: response,
+                  },
+                  ProductDetails.key
+                )
+              );
+              navigation.pop(2);
+            }
+          })
+          .catch((error) => {
+            Alert.alert(error);
+          });
+      } else {
+        console.log("isUrl", isUrl);
+        dispatch(
+          updateProductAction(
+            {
+              productname: productname,
+              description: description,
+              stock: stock,
+              price: price,
+              igst: igst,
+              hsncode: hsncode,
+              productimage: uploadUri,
+            },
+            ProductDetails.key
+          )
+        );
+        navigation.pop(2);
+      }
     } else {
       Alert.alert("Enter All Fields");
     }
