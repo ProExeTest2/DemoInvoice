@@ -1750,6 +1750,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-17.4.1.tgz#11ed73db7eb5b026204a46760e1a1d3a3e8b2499"
   integrity sha512-Sn4YVD2yOqAZfrY5KMeIFoh2f+JaQX/V/I7dSQX5vZ8RjP9cWVPJlA/CdLdORCe0DhusZMBJJfsJzCteQi8iiw==
 
+"@react-native-firebase/remote-config@^17.4.2":
+  version "17.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-17.4.2.tgz#96605f0cafacd04dd42a126110c7babe5aed7e6b"
+  integrity sha512-cJMSAKjdrnZsCTuyHskBWlkXBcKivNVPVJOtcWcVbs89GVlHVhEvIzGzwcn/9PhNqI0Qs//mh+GHdiZzm+txpQ==
+
 "@react-native-firebase/storage@^17.4.0":
   version "17.4.1"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-17.4.1.tgz#6558cea4c4a6ee7d25083bcfdd9de3bc675b4f33"
@@ -6321,6 +6326,13 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
+
+react-native-swiper@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.6.0.tgz#59fdbdf95addee49630312f27077622c27776819"
+  integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native@0.71.4:
   version "0.71.4"

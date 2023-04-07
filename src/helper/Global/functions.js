@@ -11,6 +11,7 @@ import { GET_CUSTOMER, GET_INVOICE } from "../../redux/action/types";
 import { useState } from "react";
 import notifee, { AndroidStyle } from "@notifee/react-native";
 import { icons } from "../icons";
+import remoteConfig from "@react-native-firebase/remote-config";
 import { navigate } from "../../navigation/RootNavigation";
 const customerCollection = firestore().collection("Customer");
 const productCollection = firestore().collection("Product");
@@ -312,4 +313,19 @@ export const handleClick = () => {
   console.log("handleClick called---------");
   // navigationRef?.current?.navigate("AddProduct");
   navigate("AddProduct");
+};
+
+export const getRemoteConfigValue = async () => {
+  await remoteConfig().setConfigSettings({
+    minimumFetchIntervalMillis: 1000,
+  });
+  await remoteConfig().setDefaults({ OnBoard_Show: "true" });
+  return remoteConfig()
+    .fetchAndActivate()
+    .then(() => {
+      remoteConfig().fetch(1);
+    })
+    .then(() => remoteConfig().getValue("OnBoard_Show"));
+
+  // .then(() => remoteConfig().getAll());
 };

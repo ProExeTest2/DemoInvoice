@@ -21,7 +21,7 @@ import {
   navigate,
   navigationRef,
 } from "./src/navigation/RootNavigation";
-import { handleClick } from "./src/helper/Global/functions";
+import { getRemoteConfigValue } from "./src/helper/Global/functions";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
@@ -100,6 +100,7 @@ export default function App() {
       unsubscribeNotifee();
     };
   }, []);
+
   return (
     <Provider store={store}>
       <MainNavigation />

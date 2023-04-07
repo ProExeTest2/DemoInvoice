@@ -53,4 +53,7 @@ export default string = {
   total: "Total",
   amountdue: "Amount Due",
   additem: "Add Item",
+
+  onboard1: "This is rupee sign and this screen is for demo only.!",
+  onboard2: "This is eye sign and this screen is for demo only.!",
 };

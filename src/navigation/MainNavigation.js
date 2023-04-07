@@ -11,7 +11,8 @@ import ProductDetails from "../screens/Product/ProductDetails";
 import AddProduct from "../screens/Product/AddProduct";
 import CreateInvoice from "../screens/Invoice/CreateInvoice";
 import Invoices from "../screens/Invoice/Invoices";
-import demo from "../screens/demo";
+import OnBoard from "../screens/SplashOnboard.js/OnBoard";
+import SplashScreen from "../screens/SplashOnboard.js/SplashScreen";
 const Stack = createNativeStackNavigator();
 
 const MainNavigation = () => {
@@ -50,8 +51,9 @@ const MainNavigation = () => {
           headerTitle: "",
         }}
       >
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="OnBoard" component={OnBoard} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="demo" component={demo} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="AddCustomer" component={AddCustomer} />
         <Stack.Screen name="Invoices" component={Invoices} />
