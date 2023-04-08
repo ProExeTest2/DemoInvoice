@@ -148,7 +148,9 @@ const Products = ({ navigation, route }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={[styles.total, { color: colors.black }]}>Total</Text>
+          <Text style={[styles.total, { color: colors.black }]}>
+            {StringsOfLanguage.total}
+          </Text>
           <Text style={[styles.total, { color: colors.gray }]}>
             {totalPriceCount}
           </Text>

@@ -8,7 +8,6 @@ import auth from "@react-native-firebase/auth";
 import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 import { useSelector } from "react-redux";
 const SplashScreen = ({ navigation }) => {
-  const [value, setValue] = useState(null);
   const selectedLanguage = useSelector(
     (state) => state?.user?.selectedLanguage
   );
@@ -17,7 +16,6 @@ const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       getConfigValue();
-      StringsOfLanguage.setLanguage(selectedLanguage);
     }, 5000);
   }, []);
   const getConfigValue = async () => {
@@ -28,8 +26,8 @@ const SplashScreen = ({ navigation }) => {
     console.log("abcxabcx", abcx.asBoolean());
     if (abcx.asBoolean()) navigation.replace("OnBoard");
     else navigation.replace(currentUser != null ? "DrawerNavigation" : "Login");
-    setValue(abcx.asBoolean());
   };
+  StringsOfLanguage.setLanguage(selectedLanguage);
 
   return (
     <View style={styles.maincontainer}>

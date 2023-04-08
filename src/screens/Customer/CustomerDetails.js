@@ -29,7 +29,7 @@ const CustomerDetails = ({ navigation, route }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"BACK"}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => navigation.goBack()}
       />
       <Text style={styles.title}>{CustomerData?.customername || "Name"}</Text>
@@ -51,7 +51,9 @@ const CustomerDetails = ({ navigation, route }) => {
           value={CustomerData?.pannumber}
         />
 
-        <Text style={styles.gsttitle}>GST Details</Text>
+        <Text style={styles.gsttitle}>
+          {StringsOfLanguage.customergstdetail}
+        </Text>
 
         <CustomerDetailsList
           title={StringsOfLanguage.gstnumber}

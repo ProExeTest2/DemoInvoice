@@ -63,7 +63,7 @@ const Login = ({ navigation }) => {
           <FloatingLableTextInput
             refs={passwordRef}
             returnKeyType={"done"}
-            label={strings.password}
+            label={StringsOfLanguage.password}
             editable={true}
             Value={password}
             onChangeText={(txt) => {
