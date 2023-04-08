@@ -2,7 +2,6 @@ import { AppRegistry, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
-import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
 import CustomerList from "../../components/List/CustomerList";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
@@ -11,20 +10,12 @@ import { hp } from "../../helper/Global/responsive";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedCustomerAction } from "../../redux/action/CustomerAction";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 function Customer({ navigation, route }) {
   const customers = useSelector((state) => state?.customer?.CustomerData);
 
-  const [customerList, setCustomerList] = useState(customers);
-
-  const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  useEffect(() => {
-    // if (isFocused) {
-    //   console.log("focus ", isFocused);
-    //   console.log("DATAs ", customers);
-    // setCustomerList(customers);
-    // }
-  }, [customers]);
+  useEffect(() => {}, [customers]);
 
   console.log("customerList", customers);
 
@@ -32,10 +23,10 @@ function Customer({ navigation, route }) {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"BACK"}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => navigation.goBack()}
       />
-      <TitleHeader title={strings.customer} />
+      <TitleHeader title={StringsOfLanguage.customer} />
       <FlatList
         style={styles.list}
         data={customers}

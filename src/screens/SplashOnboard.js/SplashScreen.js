@@ -4,22 +4,30 @@ import { hp } from "../../helper/Global/responsive";
 import { colors } from "../../helper/colors";
 import { icons } from "../../helper/icons";
 import { getRemoteConfigValue } from "../../helper/Global/functions";
-
+import auth from "@react-native-firebase/auth";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
+import { useSelector } from "react-redux";
 const SplashScreen = ({ navigation }) => {
   const [value, setValue] = useState(null);
-  console.log("value", value);
+  const selectedLanguage = useSelector(
+    (state) => state?.user?.selectedLanguage
+  );
+  console.log("selectedLanguage", selectedLanguage);
 
   useEffect(() => {
     setTimeout(() => {
       getConfigValue();
+      StringsOfLanguage.setLanguage(selectedLanguage);
     }, 5000);
   }, []);
   const getConfigValue = async () => {
     console.log("12321223");
+    const currentUser = auth().currentUser;
+    console.log("CURRENT splash ", auth().currentUser);
     let abcx = await getRemoteConfigValue().catch((e) => console.log(e));
     console.log("abcxabcx", abcx.asBoolean());
     if (abcx.asBoolean()) navigation.replace("OnBoard");
-    else navigation.replace("Login");
+    else navigation.replace(currentUser != null ? "DrawerNavigation" : "Login");
     setValue(abcx.asBoolean());
   };
 

@@ -1,5 +1,6 @@
 export const CLEAR_ALL = "CLEAR_ALL";
 export const SAVE_LOGIN = "SAVE_LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const GET_CUSTOMER = "GET_CUSTOMER";
 export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
@@ -17,3 +18,5 @@ export const GET_INVOICE = "GET_INVOICE";
 export const CREATE_INVOICE = "CREATE_INVOICE";
 export const UPDATE_INVOICE = "UPDATE_INVOICE";
 export const DELETE_INVOICE = "DELETE_INVOICE";
+
+export const SELECTED_LANGUAGE = "SELECTED_LANGUAGE";

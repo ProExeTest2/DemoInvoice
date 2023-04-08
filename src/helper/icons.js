@@ -12,4 +12,5 @@ export const icons = {
   longrightarrow: require("../../assets/icons/longrightarrow.png"),
   rupee: require("../../assets/icons/rupee.png"),
   search: require("../../assets/icons/loupe.png"),
+  settings: require("../../assets/icons/cogwheel.png"),
 };

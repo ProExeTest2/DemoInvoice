@@ -10,13 +10,13 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../../helper/colors";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
-import strings from "../../helper/strings";
 import { icons } from "../../helper/icons";
 import InvoicesList from "../../components/List/InvoicesList";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
 import { useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 
 const Invoices = ({ navigation }) => {
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
@@ -28,12 +28,12 @@ const Invoices = ({ navigation }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"MENU"}
+        backtext={StringsOfLanguage.menu}
         isHelp={true}
         onBackPress={() => navigation.goBack()}
       />
       <TitleHeader
-        title={strings.invoices}
+        title={StringsOfLanguage.invoices}
         onPress={() => {}}
         rightIcon={<Image style={styles.searchicon} source={icons.search} />}
       />
@@ -45,7 +45,7 @@ const Invoices = ({ navigation }) => {
           ]}
           onPress={() => setIsPaid(false)}
         >
-          <Text style={styles.buttontext}>{strings.unpaid}</Text>
+          <Text style={styles.buttontext}>{StringsOfLanguage.unpaid}</Text>
         </Pressable>
         <Pressable
           style={[
@@ -54,10 +54,10 @@ const Invoices = ({ navigation }) => {
           ]}
           onPress={() => setIsPaid(true)}
         >
-          <Text style={styles.buttontext}>{strings.paid}</Text>
+          <Text style={styles.buttontext}>{StringsOfLanguage.paid}</Text>
         </Pressable>
       </View>
-      <Text style={styles.title}>{strings.overdue}</Text>
+      <Text style={styles.title}>{StringsOfLanguage.overdue}</Text>
       <FlatList
         style={{ flex: 1 }}
         data={invoices}
@@ -72,7 +72,7 @@ const Invoices = ({ navigation }) => {
           );
         }}
       />
-      <Text style={styles.title}>{strings.viewed}</Text>
+      <Text style={styles.title}>{StringsOfLanguage.viewed}</Text>
 
       <CircleBlackButton
         containerStyle={styles.blackbtn}

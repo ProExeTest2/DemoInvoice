@@ -9,6 +9,7 @@ import BlackButton from "../../components/Button/BlackButton";
 import { icons } from "../../helper/icons";
 import { hp } from "../../helper/Global/responsive";
 import { useIsFocused } from "@react-navigation/native";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 
 const ProductDetails = ({ route, navigation }) => {
   const ProductDetail = route?.params?.ProductDetail;
@@ -17,7 +18,7 @@ const ProductDetails = ({ route, navigation }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"BACK"}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => navigation.goBack()}
       />
       <Text style={styles.title}>{ProductDetail?.productname}</Text>
@@ -36,37 +37,40 @@ const ProductDetails = ({ route, navigation }) => {
 
       <View style={{ padding: hp(2), flex: 1 }}>
         <CustomerDetailsList
-          title={strings.productname}
+          title={StringsOfLanguage.productname}
           value={ProductDetail?.productname}
         />
         <CustomerDetailsList
-          title={strings.stock}
+          title={StringsOfLanguage.stock}
           value={ProductDetail?.stock}
         />
         <CustomerDetailsList
-          title={strings.description}
+          title={StringsOfLanguage.description}
           value={ProductDetail?.description}
         />
         <CustomerDetailsList
-          title={strings.price}
+          title={StringsOfLanguage.price}
           value={ProductDetail?.price}
         />
-        <CustomerDetailsList title={strings.igst} value={ProductDetail?.igst} />
         <CustomerDetailsList
-          title={strings.hsncode}
+          title={StringsOfLanguage.igst}
+          value={ProductDetail?.igst}
+        />
+        <CustomerDetailsList
+          title={StringsOfLanguage.hsncode}
           value={ProductDetail?.hsncode}
         />
       </View>
       <View style={styles.buttoncontainer}>
         <BlackButton
-          title={strings.addstock}
+          title={StringsOfLanguage.addstock}
           onPress={() => {
             //deleteOnPress();
           }}
         />
         <BlackButton
           icon={icons.edit}
-          title={strings.edit}
+          title={StringsOfLanguage.edit}
           onPress={() => {
             navigation.navigate("AddProduct", { ProductDetail: ProductDetail });
           }}

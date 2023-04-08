@@ -26,6 +26,7 @@ import {
 } from "../../redux/action/ProductAction";
 import { PERMISSIONS, check } from "react-native-permissions";
 import * as ImagePicker from "react-native-image-picker";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 const AddProduct = ({ route, navigation }) => {
   const ProductDetails = route?.params?.ProductDetail;
   const dispatch = useDispatch();
@@ -174,15 +175,15 @@ const AddProduct = ({ route, navigation }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={strings.back}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => navigation.goBack()}
       />
       <TitleHeader
-        title={ProductDetails ? "Update Product" : strings.addproduct}
+        title={ProductDetails ? "Update Product" : StringsOfLanguage.addproduct}
       />
       <KeyboardAwareScrollView style={{ padding: 15 }}>
         <Text style={[styles.titletext, { fontSize: 21 }]}>
-          {strings.productdetail}
+          {StringsOfLanguage.productdetail}
         </Text>
         <View
           style={{
@@ -193,7 +194,7 @@ const AddProduct = ({ route, navigation }) => {
           }}
         >
           <Text style={[styles.titletext, { fontSize: 17 }]}>
-            {strings.choosefile}
+            {StringsOfLanguage.choosefile}
           </Text>
 
           <Pressable
@@ -222,7 +223,7 @@ const AddProduct = ({ route, navigation }) => {
             descriptionRef?.current?.focus();
           }}
           Value={productname}
-          label={strings.productname}
+          label={StringsOfLanguage.productname}
           editable={true}
           onChangeText={(txt) => {
             setProductName(txt);
@@ -236,7 +237,7 @@ const AddProduct = ({ route, navigation }) => {
             stockRef?.current?.focus();
           }}
           Value={description}
-          label={strings.description}
+          label={StringsOfLanguage.description}
           editable={true}
           onChangeText={(txt) => {
             setDescription(txt);
@@ -250,7 +251,7 @@ const AddProduct = ({ route, navigation }) => {
             priceRef?.current?.focus();
           }}
           Value={stock}
-          label={strings.stock}
+          label={StringsOfLanguage.stock}
           editable={true}
           onChangeText={(txt) => {
             setStock(txt);
@@ -264,7 +265,7 @@ const AddProduct = ({ route, navigation }) => {
             igstRef?.current?.focus();
           }}
           Value={price}
-          label={strings.price}
+          label={StringsOfLanguage.price}
           editable={true}
           onChangeText={(txt) => {
             setPrice(txt);
@@ -278,7 +279,7 @@ const AddProduct = ({ route, navigation }) => {
             hsncodeRef?.current?.focus();
           }}
           Value={igst}
-          label={strings.igst}
+          label={StringsOfLanguage.igst}
           editable={true}
           onChangeText={(txt) => {
             setIgst(txt);
@@ -292,7 +293,7 @@ const AddProduct = ({ route, navigation }) => {
             // descriptionRef?.current?.focus();
           }}
           Value={hsncode}
-          label={strings.hsncode}
+          label={StringsOfLanguage.hsncode}
           editable={true}
           onChangeText={(txt) => {
             setHsncode(txt);

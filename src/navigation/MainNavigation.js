@@ -13,7 +13,43 @@ import CreateInvoice from "../screens/Invoice/CreateInvoice";
 import Invoices from "../screens/Invoice/Invoices";
 import OnBoard from "../screens/SplashOnboard.js/OnBoard";
 import SplashScreen from "../screens/SplashOnboard.js/SplashScreen";
+import ChooseLanguage from "../screens/Settings/ChooseLanguage";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import CustomDrawer from "../components/CustomDrawer";
+import { colors } from "../helper/colors";
+
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const DrawerNavigation = () => {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerShown: false,
+        itemStyle: { marginVertical: 5 },
+        drawerPosition: "right",
+      }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
+    >
+      <Drawer.Screen
+        name="Dashboard"
+        options={{
+          drawerLabel: "Dashboard",
+          drawerLabelStyle: { color: colors.card2, fontSize: 18 },
+        }}
+        component={Dashboard}
+      />
+      <Drawer.Screen
+        options={{
+          drawerLabel: "Choose Language",
+          drawerLabelStyle: { color: colors.card2, fontSize: 18 },
+        }}
+        name="ChooseLanguage"
+        component={ChooseLanguage}
+      />
+    </Drawer.Navigator>
+  );
+};
 
 const MainNavigation = () => {
   // const navigation = useNavigation();
@@ -51,10 +87,12 @@ const MainNavigation = () => {
           headerTitle: "",
         }}
       >
+        {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="OnBoard" component={OnBoard} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} />
+
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="OnBoard" component={OnBoard} />
         <Stack.Screen name="AddCustomer" component={AddCustomer} />
         <Stack.Screen name="Invoices" component={Invoices} />
         <Stack.Screen name="CreateInvoice" component={CreateInvoice} />
