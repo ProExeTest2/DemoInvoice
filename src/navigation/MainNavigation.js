@@ -17,6 +17,7 @@ import ChooseLanguage from "../screens/Settings/ChooseLanguage";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer";
 import { colors } from "../helper/colors";
+import Demo from "../screens/Demo";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -87,10 +88,9 @@ const MainNavigation = () => {
           headerTitle: "",
         }}
       >
-        {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Demo" component={Demo} />
         <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} />
-
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="OnBoard" component={OnBoard} />
         <Stack.Screen name="AddCustomer" component={AddCustomer} />
