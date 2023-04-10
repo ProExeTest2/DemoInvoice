@@ -22,6 +22,7 @@ import {
   createCustomerAction,
   updateCustomerAction,
 } from "../../redux/action/CustomerAction";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 const AddCustomer = ({ route, navigation }) => {
   const {
     phoneRef,
@@ -162,14 +163,14 @@ const AddCustomer = ({ route, navigation }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={strings.cancle}
+        backtext={StringsOfLanguage.cancle}
         onBackPress={() => navigation.goBack()}
       />
-      <TitleHeader title={strings.addcustomer} />
+      <TitleHeader title={StringsOfLanguage.addcustomer} />
       <KeyboardAwareScrollView style={{ padding: 15 }}>
         <FloatingLableTextInput
           style={styles.textinput}
-          label={strings.customername}
+          label={StringsOfLanguage.customername}
           Value={customername}
           returnKeyType={"next"}
           editable={true}
@@ -188,7 +189,7 @@ const AddCustomer = ({ route, navigation }) => {
             emailRef?.current?.focus();
           }}
           Value={phonenumber}
-          label={strings.phonenumber}
+          label={StringsOfLanguage.phonenumber}
           editable={true}
           keyboardType="number-pad"
           onChangeText={(txt) => {
@@ -206,7 +207,7 @@ const AddCustomer = ({ route, navigation }) => {
               : console.log("Enter Email");
           }}
           Value={emailaddress}
-          label={strings.emailaddress}
+          label={StringsOfLanguage.emailaddress}
           editable={true}
           keyboardType="email-address"
           onChangeText={(txt) => {
@@ -223,7 +224,7 @@ const AddCustomer = ({ route, navigation }) => {
               : console.log("Enter Pancard");
           }}
           Value={pannumber}
-          label={strings.pannumber}
+          label={StringsOfLanguage.pannumber}
           editable={true}
           onChangeText={(txt) => {
             setPanNumber(txt.toUpperCase());
@@ -232,7 +233,7 @@ const AddCustomer = ({ route, navigation }) => {
           maxLength={10}
         />
 
-        <Text style={styles.title}>{strings.customergstdetail}</Text>
+        <Text style={styles.title}>{StringsOfLanguage.customergstdetail}</Text>
 
         <FloatingLableTextInput
           style={styles.textinput}
@@ -244,7 +245,7 @@ const AddCustomer = ({ route, navigation }) => {
               : console.log("Enter GST");
           }}
           Value={gstnumber}
-          label={strings.gstnumber}
+          label={StringsOfLanguage.gstnumber}
           editable={true}
           onChangeText={(txt) => {
             setGstNumber(txt.toUpperCase());
@@ -259,7 +260,7 @@ const AddCustomer = ({ route, navigation }) => {
             gststatecodeRef?.current?.focus();
           }}
           Value={gststate}
-          label={strings.gststate}
+          label={StringsOfLanguage.gststate}
           editable={true}
           onChangeText={(txt) => {
             setGstState(txt);
@@ -273,7 +274,7 @@ const AddCustomer = ({ route, navigation }) => {
             addressRef?.current?.focus();
           }}
           Value={gststatecode}
-          label={strings.gststatecode}
+          label={StringsOfLanguage.gststatecode}
           editable={true}
           onChangeText={(txt) => {
             setGstStateCode(txt);
@@ -282,7 +283,7 @@ const AddCustomer = ({ route, navigation }) => {
           maxLength={2}
         />
 
-        <Text style={styles.title}>{strings.billingaddress}</Text>
+        <Text style={styles.title}>{StringsOfLanguage.billingaddress}</Text>
 
         <FloatingLableTextInput
           style={styles.textinput}
@@ -291,7 +292,7 @@ const AddCustomer = ({ route, navigation }) => {
             townRef?.current?.focus();
           }}
           Value={address}
-          label={strings.address}
+          label={StringsOfLanguage.address}
           editable={true}
           onChangeText={(txt) => {
             setAddress(txt);
@@ -305,7 +306,7 @@ const AddCustomer = ({ route, navigation }) => {
             stateRef?.current?.focus();
           }}
           Value={town}
-          label={strings.town}
+          label={StringsOfLanguage.town}
           editable={true}
           onChangeText={(txt) => {
             setTown(txt);
@@ -319,7 +320,7 @@ const AddCustomer = ({ route, navigation }) => {
             addressRef1?.current?.focus();
           }}
           Value={state}
-          label={strings.state}
+          label={StringsOfLanguage.state}
           editable={true}
           onChangeText={(txt) => {
             setState(txt);
@@ -333,7 +334,7 @@ const AddCustomer = ({ route, navigation }) => {
             checkboxOnSelect();
           }}
           isChecked={asAbove}
-          rightText={strings.shippingaddressasbilingaddress}
+          rightText={StringsOfLanguage.shippingaddressasbilingaddress}
           rightTextStyle={styles.title}
           checkBoxColor={colors.gray}
         />
@@ -345,7 +346,7 @@ const AddCustomer = ({ route, navigation }) => {
             townRef1?.current?.focus();
           }}
           Value={address1}
-          label={strings.address}
+          label={StringsOfLanguage.address}
           editable={true}
           onChangeText={(txt) => {
             isAddressSame();
@@ -360,7 +361,7 @@ const AddCustomer = ({ route, navigation }) => {
             stateRef1?.current?.focus();
           }}
           Value={town1}
-          label={strings.town}
+          label={StringsOfLanguage.town}
           editable={true}
           onChangeText={(txt) => {
             setTown1(txt);
@@ -375,7 +376,7 @@ const AddCustomer = ({ route, navigation }) => {
             Keyboard.dismiss();
           }}
           Value={state1}
-          label={strings.state}
+          label={StringsOfLanguage.state}
           editable={true}
           onChangeText={(txt) => {
             setState1(txt);

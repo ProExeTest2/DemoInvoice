@@ -39,7 +39,6 @@ export default string = {
   addproduct: "Add Product",
   choosefile: "Choose File",
   productdetail: "Product Detail",
-  invoices: "Invoices",
   paid: "Paid",
   unpaid: "Unpaid",
   overdue: "OVERDUE",

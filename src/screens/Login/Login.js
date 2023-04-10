@@ -8,9 +8,9 @@ import { colors } from "../../helper/colors";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail } from "../../helper/Global/functions";
-import { useDispatch } from "react-redux";
 import auth from "@react-native-firebase/auth";
 import { hp } from "../../helper/Global/responsive";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("priyanka@proexe.in"); //priyanka@proexe.in
   const [password, setPassword] = useState("123456"); //123456
@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
       if (validateEmail(email)) {
         auth()
           .signInWithEmailAndPassword(email, password)
-          .then((user) => (user ? navigation.replace("Dashboard") : ""))
+          .then((user) => (user ? navigation.replace("DrawerNavigation") : ""))
           .catch((error) => {
             console.log(error);
             if (error.code === "auth/invalid-email") Alert.alert(error.message);
@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
                 : console.log("Enter email");
             }}
             Value={email}
-            label={strings.emailaddress}
+            label={StringsOfLanguage.emailaddress} //{strings.emailaddress}
             editable={true}
             keyboardType="email-address"
             onChangeText={(txt) => {
@@ -63,7 +63,7 @@ const Login = ({ navigation }) => {
           <FloatingLableTextInput
             refs={passwordRef}
             returnKeyType={"done"}
-            label={strings.password}
+            label={StringsOfLanguage.password}
             editable={true}
             Value={password}
             onChangeText={(txt) => {

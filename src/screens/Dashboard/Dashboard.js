@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Image,
-  PushNotificationIOS,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Alert, Image, SafeAreaView, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import DashboardCard from "../../components/DashboardCard";
 import strings from "../../helper/strings";
@@ -13,21 +6,20 @@ import { colors } from "../../helper/colors";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
 import { hp } from "../../helper/Global/responsive";
 import auth from "@react-native-firebase/auth";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductAction } from "../../redux/action/ProductAction";
 import { getInvoiceActions } from "../../redux/action/InvoiceAction";
 import firestore from "@react-native-firebase/firestore";
 import { getCustomerAction } from "../../redux/action/CustomerAction";
-import PushNotification from "react-native-push-notification";
 import messaging from "@react-native-firebase/messaging";
-import notifee, { AndroidStyle } from "@notifee/react-native";
 import { icons } from "../../helper/icons";
 import { sendNotification } from "../../helper/Global/functions";
-const Dashboard = ({ navigation }) => {
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
+const Dashboard = () => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const customers = useSelector((state) => state?.customer?.CustomerData);
   const products = useSelector((state) => state?.product?.ProductData);
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
@@ -99,7 +91,8 @@ const Dashboard = ({ navigation }) => {
   }, [isFocused]);
 
   const getCurrentUser = async () => {
-    navigation.replace(auth().currentUser ? "" : "Login");
+    console.log("CURRENT ", auth().currentUser);
+    //navigation.replace(auth().currentUser ? "" : "Login");
   };
   const cardOnPress = (routeName) => {
     navigation.navigate(routeName);
@@ -115,17 +108,33 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.maincontainer}>
-      <TitleHeader title={"Dashboard"} style={{ marginTop: hp(3.5) }} />
+      <TitleHeader
+        title={"Dashboard"}
+        style={{ marginTop: hp(3.5) }}
+        rightIcon={
+          <Image
+            source={icons.settings}
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
+        }
+        onPress={() => {
+          navigation.openDrawer();
+          //navigation.navigate("DrawerNavigation");
+        }}
+      />
       <View style={styles.cardcontainer}>
         <DashboardCard
           count={invoices?.length} //{invoices?.length}
-          title={strings.invoices}
+          title={StringsOfLanguage.invoices}
           background={colors.card1}
           onPress={() => cardOnPress("Invoices")}
         />
         <DashboardCard
           count={customers?.length} //{customers?.length}
-          title={strings.customer}
+          title={StringsOfLanguage.customer}
           background={colors.card2}
           onPress={() => {
             cardOnPress("Customer");
@@ -135,7 +144,7 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.cardcontainer}>
         <DashboardCard
           count={products?.length} //{products.length}
-          title={strings.products}
+          title={StringsOfLanguage.products}
           background={colors.card3}
           onPress={() => {
             cardOnPress("Products");
@@ -143,7 +152,7 @@ const Dashboard = ({ navigation }) => {
         />
         <DashboardCard
           count={10}
-          title={strings.payments}
+          title={StringsOfLanguage.payments}
           background={colors.card4}
           onPress={() => {
             console.log("BEFORE0");

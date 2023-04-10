@@ -9,8 +9,8 @@ import {
 import React from "react";
 import { hp } from "../../../helper/Global/responsive";
 import { colors } from "../../../helper/colors";
-import strings from "../../../helper/strings";
 import { useNavigation } from "@react-navigation/native";
+import StringsOfLanguage from "../../../helper/Localization/StringsOfLanguage";
 
 const Header = ({ isBack, isHelp, backtext, onBackPress }) => {
   const navigation = useNavigation();
@@ -21,13 +21,11 @@ const Header = ({ isBack, isHelp, backtext, onBackPress }) => {
         style={{
           flexDirection: "row",
           width: "100%",
+          justifyContent: "space-between",
         }}
       >
         {isBack && (
           <TouchableOpacity
-            style={{
-              height: hp(3),
-            }}
             onPress={
               onBackPress
               //</View></View>navigation.goBack();
@@ -37,9 +35,7 @@ const Header = ({ isBack, isHelp, backtext, onBackPress }) => {
           </TouchableOpacity>
         )}
         {isHelp && (
-          <Text style={[styles.backtext, { textAlign: "right" }]}>
-            {strings.help}
-          </Text>
+          <Text style={styles.backtext}>{StringsOfLanguage.help}</Text>
         )}
       </View>
     </View>
@@ -58,6 +54,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "#000",
-    flex: 1,
   },
 });

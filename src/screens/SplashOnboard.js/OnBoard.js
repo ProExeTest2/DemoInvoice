@@ -13,7 +13,7 @@ import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { icons } from "../../helper/icons";
 import Swiper from "react-native-swiper";
 import strings from "../../helper/strings";
-
+import auth from "@react-native-firebase/auth";
 const OnBoard = ({ navigation }) => {
   const swiper = useRef(null);
   return (
@@ -56,7 +56,12 @@ const OnBoard = ({ navigation }) => {
       </Swiper>
       <CircleBlackButton
         containerStyle={styles.blackbtn}
-        onPress={() => navigation.replace("Dashboard")}
+        onPress={() => {
+          const currentUser = auth().currentUser;
+          navigation.replace(
+            currentUser != null ? "DrawerNavigation" : "Login"
+          );
+        }}
         title={"S K I P"}
       />
     </View>

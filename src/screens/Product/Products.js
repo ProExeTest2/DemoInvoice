@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
-import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
 import { icons } from "../../helper/icons";
 import BlackButton from "../../components/Button/BlackButton";
@@ -19,6 +18,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { getSelectedProductAction } from "../../redux/action/ProductAction";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 const Products = ({ navigation, route }) => {
   const products = useSelector((state) => state.product);
   const isFocused = useIsFocused();
@@ -129,7 +129,7 @@ const Products = ({ navigation, route }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"BACK"}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => {
           if (route?.params?.selection == true) {
             dispatch(getSelectedProductAction(undefined));
@@ -139,7 +139,7 @@ const Products = ({ navigation, route }) => {
           }
         }}
       />
-      <TitleHeader title={strings.products} />
+      <TitleHeader title={StringsOfLanguage.products} />
       {route?.params?.selection && (
         <View
           style={{
@@ -148,7 +148,9 @@ const Products = ({ navigation, route }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={[styles.total, { color: colors.black }]}>Total</Text>
+          <Text style={[styles.total, { color: colors.black }]}>
+            {StringsOfLanguage.total}
+          </Text>
           <Text style={[styles.total, { color: colors.gray }]}>
             {totalPriceCount}
           </Text>
@@ -198,7 +200,7 @@ const Products = ({ navigation, route }) => {
             alignSelf: "center",
           }}
           icon={icons.addproduct}
-          title={strings.addproduct}
+          title={StringsOfLanguage.addproduct}
           onPress={() => {
             navigation.navigate("AddProduct");
           }}

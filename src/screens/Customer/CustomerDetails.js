@@ -2,13 +2,13 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Header from "../../components/Common/Header/Header";
 import { colors } from "../../helper/colors";
-import strings from "../../helper/strings";
 import CustomerDetailsList from "../../components/List/CustomerDetailsList";
 import { ScrollView } from "react-native-gesture-handler";
 import BlackButton from "../../components/Button/BlackButton";
 import { icons } from "../../helper/icons";
 import { useDispatch } from "react-redux";
 import { deleteCustomerAction } from "../../redux/action/CustomerAction";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 
 const CustomerDetails = ({ navigation, route }) => {
   const CustomerData = route?.params?.CustomerData;
@@ -29,44 +29,46 @@ const CustomerDetails = ({ navigation, route }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={"BACK"}
+        backtext={StringsOfLanguage.back}
         onBackPress={() => navigation.goBack()}
       />
       <Text style={styles.title}>{CustomerData?.customername || "Name"}</Text>
       <ScrollView style={{ padding: 20 }}>
         <CustomerDetailsList
-          title={strings.customername}
+          title={StringsOfLanguage.customername}
           value={CustomerData?.customername}
         />
         <CustomerDetailsList
-          title={strings.phonenumber}
+          title={StringsOfLanguage.phonenumber}
           value={CustomerData?.phonenumber}
         />
         <CustomerDetailsList
-          title={strings.emailaddress}
+          title={StringsOfLanguage.emailaddress}
           value={CustomerData?.emailaddress}
         />
         <CustomerDetailsList
-          title={strings.pannumber}
+          title={StringsOfLanguage.pannumber}
           value={CustomerData?.pannumber}
         />
 
-        <Text style={styles.gsttitle}>GST Details</Text>
+        <Text style={styles.gsttitle}>
+          {StringsOfLanguage.customergstdetail}
+        </Text>
 
         <CustomerDetailsList
-          title={strings.gstnumber}
+          title={StringsOfLanguage.gstnumber}
           value={CustomerData?.gstnumber}
         />
         <CustomerDetailsList
-          title={strings.gststate}
+          title={StringsOfLanguage.gststate}
           value={CustomerData?.gststate}
         />
         <CustomerDetailsList
-          title={strings.gststatecode}
+          title={StringsOfLanguage.gststatecode}
           value={CustomerData?.gststatecode}
         />
         <CustomerDetailsList
-          title={strings.billingaddress}
+          title={StringsOfLanguage.billingaddress}
           value={
             CustomerData?.address +
             ", " +
@@ -76,7 +78,7 @@ const CustomerDetails = ({ navigation, route }) => {
           }
         />
         <CustomerDetailsList
-          title={strings.shippingaddress}
+          title={StringsOfLanguage.shippingaddress}
           value={
             CustomerData?.address1 +
             ", " +
@@ -89,14 +91,14 @@ const CustomerDetails = ({ navigation, route }) => {
       <View style={styles.buttoncontainer}>
         <BlackButton
           icon={icons.delete}
-          title={strings.delete}
+          title={StringsOfLanguage.delete}
           onPress={() => {
             deleteOnPress();
           }}
         />
         <BlackButton
           icon={icons.edit}
-          title={strings.edit}
+          title={StringsOfLanguage.edit}
           onPress={() => {
             editOnPress();
           }}

@@ -13,7 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
 import { colors } from "../../helper/colors";
-import strings from "../../helper/strings";
 import AddButton from "../../components/Button/AddButton";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
@@ -29,6 +28,7 @@ import {
   getSelectedProductAction,
   updateProductAction,
 } from "../../redux/action/ProductAction";
+import StringsOfLanguage from "../../helper/Localization/StringsOfLanguage";
 
 const CreateInvoice = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -55,7 +55,9 @@ const CreateInvoice = ({ navigation, route }) => {
   const [paymentDue, setPaymentdue] = useState(
     moment().add(1, "month").format("DD, MMM, YYYY")
   );
-  const [customername, setCustomerName] = useState(strings.addcustomer);
+  const [customername, setCustomerName] = useState(
+    StringsOfLanguage.addcustomer
+  );
   const [selectedproductname, setSelectedProductName] = useState([]);
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -161,30 +163,34 @@ const CreateInvoice = ({ navigation, route }) => {
     <SafeAreaView style={styles.maincontainer}>
       <Header
         isBack={true}
-        backtext={strings.cancle}
+        backtext={StringsOfLanguage.cancle}
         isHelp={true}
         onBackPress={() => {
           dispatch(getSelectedCustomerAction({}));
-          setCustomerName(strings.addcustomer);
+          setCustomerName(StringsOfLanguage.addcustomer);
           dispatch(getSelectedProductAction({}));
-          setSelectedProductName(strings.addproduct);
+          setSelectedProductName(StringsOfLanguage.addproduct);
           navigation.goBack();
         }}
       />
-      <TitleHeader title={strings.createinvoice} />
+      <TitleHeader title={StringsOfLanguage.createinvoice} />
       <ScrollView style={{ padding: 15 }}>
         <View>
           <View style={styles.textcontainer}>
             <Text style={styles.drafttext}>#invoice {invoicenumber}</Text>
-            <Text style={styles.drafttext}>{strings.draft}</Text>
+            <Text style={styles.drafttext}>{StringsOfLanguage.draft}</Text>
           </View>
           <View style={styles.textcontainer}>
-            <Text style={styles.projectnametext}>{strings.projectname}</Text>
-            <Text style={styles.projectnametext}>{strings.posonumber}</Text>
+            <Text style={styles.projectnametext}>
+              {StringsOfLanguage.projectname}
+            </Text>
+            <Text style={styles.projectnametext}>
+              {StringsOfLanguage.posonumber}
+            </Text>
           </View>
 
           <View style={[styles.textcontainer, { marginTop: hp(3) }]}>
-            <Text style={styles.datetext}>{strings.invoicedate}</Text>
+            <Text style={styles.datetext}>{StringsOfLanguage.invoicedate}</Text>
             <Pressable
               style={styles.textcontainer}
               onPress={() => invoiceDateOnPress()}
@@ -230,7 +236,7 @@ const CreateInvoice = ({ navigation, route }) => {
 
           <View style={styles.saperator} />
           <View style={[styles.textcontainer, { marginBottom: hp(3) }]}>
-            <Text style={styles.datetext}>{strings.paymentdue}</Text>
+            <Text style={styles.datetext}>{StringsOfLanguage.paymentdue}</Text>
             <Pressable
               style={styles.textcontainer}
               onPress={() => paymentDueOnPress()}
@@ -272,14 +278,14 @@ const CreateInvoice = ({ navigation, route }) => {
           </CustomModal>
 
           <AddButton
-            title={customername || strings.addcustomer}
+            title={customername || StringsOfLanguage.addcustomer}
             onPress={() => addCustomerOnPress()}
           />
           <AddButton
             title={
-              selectedproductname?.join(",") || strings.additem
+              selectedproductname?.join(",") || StringsOfLanguage.additem
               // selectedproductname?.length == 0
-              // ?strings.additem
+              // ?StringsOfLanguage.additem
               //   : selectedproductname?.join(" ,")
             }
             onPress={() => addProductOnPress()}
@@ -288,13 +294,15 @@ const CreateInvoice = ({ navigation, route }) => {
 
         <View style={[styles.textcontainer, { marginVertical: hp(2.5) }]}>
           <Text style={[styles.datetext, { fontSize: 22, fontWeight: "600" }]}>
-            {strings.total}
+            {StringsOfLanguage.total}
           </Text>
           <Text style={styles.datetext}>{amountDue}</Text>
         </View>
 
         <View style={[styles.textcontainer, styles.amountduecontainer]}>
-          <Text style={styles.dueamounttext}>{strings.amountdue}</Text>
+          <Text style={styles.dueamounttext}>
+            {StringsOfLanguage.amountdue}
+          </Text>
           <View style={styles.textcontainer}>
             <Image style={styles.rupeeimg} source={icons.rupee} />
             <Text style={styles.dueamounttext}>{amountDue}</Text>
@@ -304,7 +312,7 @@ const CreateInvoice = ({ navigation, route }) => {
       <CircleBlackButton
         containerStyle={styles.blackbtn}
         onPress={() => saveInvoice()}
-        title={strings.btnsend}
+        title={StringsOfLanguage.btnsend}
       />
     </SafeAreaView>
   );
