@@ -6,7 +6,9 @@ import { hp } from "../../helper/Global/responsive";
 const BlackButton = ({ icon, title, onPress, style }) => {
   return (
     <Pressable style={[styles.maincontainer, style]} onPress={onPress}>
-      {icon && <Image style={styles.buttonicon} source={icon} />}
+      {icon && <View style={styles.buttonicon}>{icon}</View>}
+
+      {/* <Image  source={icon} /> */}
       <Text style={styles.title}>{title}</Text>
     </Pressable>
   );
@@ -33,8 +35,8 @@ const styles = StyleSheet.create({
     marginLeft: 9,
   },
   buttonicon: {
-    height: 26,
-    width: 26,
+    height: 34,
+    width: 34,
     tintColor: colors.white,
   },
 });

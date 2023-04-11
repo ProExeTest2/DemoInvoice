@@ -51,10 +51,10 @@ const MainNavigation = () => {
           headerTitle: "",
         }}
       >
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="OnBoard" component={OnBoard} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="AddCustomer" component={AddCustomer} />
         <Stack.Screen name="Invoices" component={Invoices} />
         <Stack.Screen name="CreateInvoice" component={CreateInvoice} />

@@ -12,13 +12,13 @@ import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
 import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
-import { icons } from "../../helper/icons";
 import BlackButton from "../../components/Button/BlackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { getSelectedProductAction } from "../../redux/action/ProductAction";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
+import { AddProduct, Minus, Plus } from "../../helper/svgs";
 const Products = ({ navigation, route }) => {
   const products = useSelector((state) => state.product);
   const isFocused = useIsFocused();
@@ -113,11 +113,11 @@ const Products = ({ navigation, route }) => {
         {isSelected ? (
           <View style={styles.quantityView}>
             <Pressable onPress={onPressMinus}>
-              <Image source={icons.minus} style={styles.minusicon} />
+              <Minus />
             </Pressable>
             <Text style={styles.result}>{quantity}</Text>
             <Pressable onPress={onPressPlus}>
-              <Image source={icons.plus} style={styles.minusicon} />
+              <Plus />
             </Pressable>
           </View>
         ) : null}
@@ -197,7 +197,8 @@ const Products = ({ navigation, route }) => {
             bottom: 0,
             alignSelf: "center",
           }}
-          icon={icons.addproduct}
+          //icon={icons.addproduct}
+          icon={<AddProduct />}
           title={strings.addproduct}
           onPress={() => {
             navigation.navigate("AddProduct");

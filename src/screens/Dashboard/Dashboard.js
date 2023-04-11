@@ -22,7 +22,6 @@ import { getCustomerAction } from "../../redux/action/CustomerAction";
 import PushNotification from "react-native-push-notification";
 import messaging from "@react-native-firebase/messaging";
 import notifee, { AndroidStyle } from "@notifee/react-native";
-import { icons } from "../../helper/icons";
 import { sendNotification } from "../../helper/Global/functions";
 const Dashboard = ({ navigation }) => {
   const isFocused = useIsFocused();

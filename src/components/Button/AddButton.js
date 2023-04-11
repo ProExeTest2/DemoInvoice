@@ -1,14 +1,15 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { icons } from "../../helper/icons";
 import { colors } from "../../helper/colors";
+import { LongRightArrow } from "../../helper/svgs";
 
 const AddButton = ({ title, onPress }) => {
   return (
     <View style={styles.maincontainer}>
       <Text style={styles.title}>{title}</Text>
       <Pressable style={styles.imagecontainer} onPress={onPress}>
-        <Image style={styles.image} source={icons.longrightarrow} />
+        <LongRightArrow />
+        {/* <Image style={styles.image} source={icons.longrightarrow} /> */}
       </Pressable>
     </View>
   );
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   imagecontainer: {
-    padding: 14,
+    padding: 7,
     borderRadius: 11,
     backgroundColor: colors.lightgray,
   },

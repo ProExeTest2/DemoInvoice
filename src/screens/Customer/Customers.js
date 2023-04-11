@@ -6,11 +6,11 @@ import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
 import CustomerList from "../../components/List/CustomerList";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
-import { icons } from "../../helper/icons";
 import { hp } from "../../helper/Global/responsive";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedCustomerAction } from "../../redux/action/CustomerAction";
+import { Plus } from "../../helper/svgs";
 function Customer({ navigation, route }) {
   const customers = useSelector((state) => state?.customer?.CustomerData);
 
@@ -64,7 +64,7 @@ function Customer({ navigation, route }) {
         <CircleBlackButton
           containerStyle={styles.blackbtn}
           onPress={() => navigation.navigate("AddCustomer")}
-          icon={icons.plus}
+          icon={<Plus />}
         />
       )}
     </SafeAreaView>

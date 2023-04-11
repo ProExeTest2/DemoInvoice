@@ -13,8 +13,9 @@ const CircleBlackButton = ({
   return (
     <Pressable style={[styles.maincontainer, containerStyle]} onPress={onPress}>
       {icon ? (
-        <Image style={styles.btnicon} source={icon} />
+        <View style={styles.btnicon}>{icon}</View>
       ) : (
+        // <Image style={styles.btnicon} source={icon} />
         <Text style={[styles.title, textStyle]}>{title}</Text>
       )}
     </Pressable>

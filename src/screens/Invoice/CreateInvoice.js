@@ -17,7 +17,6 @@ import strings from "../../helper/strings";
 import AddButton from "../../components/Button/AddButton";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
-import { icons } from "../../helper/icons";
 import { Calendar } from "react-native-calendars";
 import CustomModal from "../../components/CustomModal";
 import moment from "moment";
@@ -29,6 +28,7 @@ import {
   getSelectedProductAction,
   updateProductAction,
 } from "../../redux/action/ProductAction";
+import { Rupee, ShortRightArrow } from "../../helper/svgs";
 
 const CreateInvoice = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -190,7 +190,8 @@ const CreateInvoice = ({ navigation, route }) => {
               onPress={() => invoiceDateOnPress()}
             >
               <Text style={styles.datetext}>{invoiceDate}</Text>
-              <Image style={styles.rightarrow} source={icons.shortrightarrow} />
+              <ShortRightArrow />
+              {/* <Image style={styles.rightarrow} source={icons.shortrightarrow} /> */}
             </Pressable>
           </View>
           <CustomModal
@@ -236,7 +237,8 @@ const CreateInvoice = ({ navigation, route }) => {
               onPress={() => paymentDueOnPress()}
             >
               <Text style={styles.datetext}>{paymentDue}</Text>
-              <Image style={styles.rightarrow} source={icons.shortrightarrow} />
+              <ShortRightArrow />
+              {/* <Image style={styles.rightarrow} source={icons.shortrightarrow} /> */}
             </Pressable>
           </View>
           <CustomModal
@@ -296,7 +298,8 @@ const CreateInvoice = ({ navigation, route }) => {
         <View style={[styles.textcontainer, styles.amountduecontainer]}>
           <Text style={styles.dueamounttext}>{strings.amountdue}</Text>
           <View style={styles.textcontainer}>
-            <Image style={styles.rupeeimg} source={icons.rupee} />
+            <Rupee />
+            {/* <Image style={styles.rupeeimg} source={icons.rupee} /> */}
             <Text style={styles.dueamounttext}>{amountDue}</Text>
           </View>
         </View>
