@@ -13,8 +13,10 @@ const CircleBlackButton = ({
   return (
     <Pressable style={[styles.maincontainer, containerStyle]} onPress={onPress}>
       {icon ? (
-        <Image style={styles.btnicon} source={icon} />
+        <View>{icon}</View>
       ) : (
+        // <View style={styles.btnicon}></View>
+        // <Image style={styles.btnicon} source={icon} />
         <Text style={[styles.title, textStyle]}>{title}</Text>
       )}
     </Pressable>
@@ -39,9 +41,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
   },
-  btnicon: {
-    tintColor: colors.white,
-    height: 28,
-    width: 28,
-  },
+  btnicon: {},
 });

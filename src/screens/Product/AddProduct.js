@@ -15,7 +15,6 @@ import TitleHeader from "../../components/Common/Header/TitleHeader";
 import FloatingLableTextInput from "../../components/FloatingLableTextInput";
 import strings from "../../helper/strings";
 import { colors } from "../../helper/colors";
-import { icons } from "../../helper/icons";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
 import storage from "@react-native-firebase/storage";
@@ -26,6 +25,8 @@ import {
 } from "../../redux/action/ProductAction";
 import { PERMISSIONS, check } from "react-native-permissions";
 import * as ImagePicker from "react-native-image-picker";
+import { Upload } from "../../helper/svgs";
+
 const AddProduct = ({ route, navigation }) => {
   const ProductDetails = route?.params?.ProductDetail;
   const dispatch = useDispatch();
@@ -208,9 +209,9 @@ const AddProduct = ({ route, navigation }) => {
                 source={{ uri: productImage }}
               />
             ) : (
-              <Image style={styles.uploadicon} source={icons.upload} />
+              <Upload />
               //   )
-              // ) : (
+              // ) : (source={icons.upload}
               //   <Image style={styles.imageupload} source={{ uri: value }} />
             )}
           </Pressable>
@@ -328,8 +329,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   uploadicon: {
-    height: 36,
-    width: 36,
+    height: hp(10),
+    width: hp(10),
+    alignItems: "center",
+    justifyContent: "center",
   },
   imageupload: {
     borderRadius: 10,

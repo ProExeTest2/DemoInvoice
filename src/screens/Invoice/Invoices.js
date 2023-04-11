@@ -11,12 +11,12 @@ import { colors } from "../../helper/colors";
 import Header from "../../components/Common/Header/Header";
 import TitleHeader from "../../components/Common/Header/TitleHeader";
 import strings from "../../helper/strings";
-import { icons } from "../../helper/icons";
 import InvoicesList from "../../components/List/InvoicesList";
 import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
 import { useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
+import { Plus, Plus_White, Search } from "../../helper/svgs";
 
 const Invoices = ({ navigation }) => {
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
@@ -35,8 +35,9 @@ const Invoices = ({ navigation }) => {
       <TitleHeader
         title={strings.invoices}
         onPress={() => {}}
-        rightIcon={<Image style={styles.searchicon} source={icons.search} />}
+        rightIcon={<Search />}
       />
+      {/* // /><Image style={styles.searchicon} source={icons.search} /> */}
       <View style={styles.optionbuttoncontainer}>
         <Pressable
           style={[
@@ -77,7 +78,8 @@ const Invoices = ({ navigation }) => {
       <CircleBlackButton
         containerStyle={styles.blackbtn}
         onPress={() => navigation.navigate("CreateInvoice")}
-        icon={icons.plus}
+        icon={<Plus_White />}
+        //icon={icons.plus}
       />
     </SafeAreaView>
   );

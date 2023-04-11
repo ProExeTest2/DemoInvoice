@@ -6,9 +6,9 @@ import strings from "../../helper/strings";
 import CustomerDetailsList from "../../components/List/CustomerDetailsList";
 import { ScrollView } from "react-native-gesture-handler";
 import BlackButton from "../../components/Button/BlackButton";
-import { icons } from "../../helper/icons";
 import { useDispatch } from "react-redux";
 import { deleteCustomerAction } from "../../redux/action/CustomerAction";
+import { Delete, Edit } from "../../helper/svgs";
 
 const CustomerDetails = ({ navigation, route }) => {
   const CustomerData = route?.params?.CustomerData;
@@ -88,14 +88,14 @@ const CustomerDetails = ({ navigation, route }) => {
       </ScrollView>
       <View style={styles.buttoncontainer}>
         <BlackButton
-          icon={icons.delete}
+          icon={<Delete />}
           title={strings.delete}
           onPress={() => {
             deleteOnPress();
           }}
         />
         <BlackButton
-          icon={icons.edit}
+          icon={<Edit />}
           title={strings.edit}
           onPress={() => {
             editOnPress();

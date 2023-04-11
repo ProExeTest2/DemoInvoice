@@ -11,6 +11,9 @@ import { validateEmail } from "../../helper/Global/functions";
 import { useDispatch } from "react-redux";
 import auth from "@react-native-firebase/auth";
 import { hp } from "../../helper/Global/responsive";
+import { Hide, Show } from "../../helper/svgs";
+// import Hide from "../../../assets/svgs/svgFiles/Hide";
+// import Show from "../../../assets/svgs/svgFiles/Show";
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("priyanka@proexe.in"); //priyanka@proexe.in
   const [password, setPassword] = useState("123456"); //123456
@@ -40,6 +43,7 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.maincontainer}>
       <Image style={styles.appicon} source={icons.appicon} />
+
       <View style={{ justifyContent: "center", flex: 1, padding: 20 }}>
         <Text style={styles.title}>ELIT Login</Text>
         <KeyboardAwareScrollView>
@@ -72,10 +76,13 @@ const Login = ({ navigation }) => {
             blurOnSubmit={false}
             secureTextEntry={!passwordShow}
             PasswordSecure={
-              <Image
-                source={passwordShow ? icons.showpassword : icons.hidepassword}
-                style={styles.passwordshowicon}
-              />
+              passwordShow ? <Show /> : <Hide />
+              //   <Image
+              //     // source={passwordShow ? icons.showpassword : icons.hidepassword}
+              //     // source={<Show />}
+              //     source={passwordShow ? <Show /> : <Hide />}
+              //     style={styles.passwordshowicon}
+              //   />
             }
             onPress={() => {
               passwordShow ? setPasswordShow(false) : setPasswordShow(true);
@@ -107,6 +114,10 @@ const styles = StyleSheet.create({
     marginBottom: 41,
   },
   appicon: {
+    // alignSelf: "center",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // backgroundColor: "red",
     height: 190,
     width: 140,
     marginTop: 20,

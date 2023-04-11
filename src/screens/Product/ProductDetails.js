@@ -6,9 +6,9 @@ import Header from "../../components/Common/Header/Header";
 import CustomerDetailsList from "../../components/List/CustomerDetailsList";
 import strings from "../../helper/strings";
 import BlackButton from "../../components/Button/BlackButton";
-import { icons } from "../../helper/icons";
 import { hp } from "../../helper/Global/responsive";
 import { useIsFocused } from "@react-navigation/native";
+import { Edit } from "../../helper/svgs";
 
 const ProductDetails = ({ route, navigation }) => {
   const ProductDetail = route?.params?.ProductDetail;
@@ -65,7 +65,8 @@ const ProductDetails = ({ route, navigation }) => {
           }}
         />
         <BlackButton
-          icon={icons.edit}
+          // icon={icons.edit}
+          icon={<Edit />}
           title={strings.edit}
           onPress={() => {
             navigation.navigate("AddProduct", { ProductDetail: ProductDetail });
