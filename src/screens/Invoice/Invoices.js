@@ -16,7 +16,7 @@ import CircleBlackButton from "../../components/Common/CircleBlackButton";
 import { hp } from "../../helper/Global/responsive";
 import { useSelector } from "react-redux";
 import { FlatList } from "react-native-gesture-handler";
-import { Plus, Search } from "../../helper/svgs";
+import { Plus, Plus_White, Search } from "../../helper/svgs";
 
 const Invoices = ({ navigation }) => {
   const invoices = useSelector((state) => state?.invoice?.InvoiceData);
@@ -78,7 +78,7 @@ const Invoices = ({ navigation }) => {
       <CircleBlackButton
         containerStyle={styles.blackbtn}
         onPress={() => navigation.navigate("CreateInvoice")}
-        icon={<Plus />}
+        icon={<Plus_White />}
         //icon={icons.plus}
       />
     </SafeAreaView>

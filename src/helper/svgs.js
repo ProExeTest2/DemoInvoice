@@ -6,6 +6,7 @@ import AddProduct from "../../assets/svgs/addproduct.svg";
 import LongRightArrow from "../../assets/svgs/longrightarrow.svg";
 import Minus from "../../assets/svgs/minus.svg";
 import Plus from "../../assets/svgs/plus.svg";
+import Plus_White from "../../assets/svgs/plus_white.svg";
 import Rupee from "../../assets/svgs/rupee.svg";
 import Search from "../../assets/svgs/search.svg";
 import ShortRightArrow from "../../assets/svgs/shortrightarrow.svg";
@@ -27,4 +28,5 @@ export {
   Upload,
   Delete,
   Edit,
+  Plus_White,
 };
