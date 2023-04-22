@@ -22,10 +22,10 @@ export const validateEmail = (email) => {
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
   if (!strongRegex.test(email)) {
-    Alert.alert("Email not valid");
+    //Alert.alert("Email not valid");
     return false;
   } else {
-    Alert.alert("Email is valid");
+    //Alert.alert("Email is valid");
     return true;
   }
 };

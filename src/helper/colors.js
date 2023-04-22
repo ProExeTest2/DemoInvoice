@@ -10,4 +10,8 @@ export const colors = {
   titletext: "rgb(147,162,172)",
   lightgray: "rgb(234,238,246)",
   lightgray2: "rgb(207,214,219)",
+
+  orange: "rgb(248,126,35)",
+  orangestatusbar: "rgb(220,112,31)",
+  green: "rgb(0,105,20)",
 };

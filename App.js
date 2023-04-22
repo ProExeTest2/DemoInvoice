@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import MainNavigation from "./src/navigation/MainNavigation";
+import PrestartrNavigation from "./src/navigation/PrestartrNavigation";
 import persistReducer from "redux-persist/es/persistReducer";
 import { applyMiddleware, createStore } from "redux";
 import { Provider, useDispatch } from "react-redux";
@@ -103,7 +104,8 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MainNavigation />
+      {/* <MainNavigation /> */}
+      <PrestartrNavigation />
     </Provider>
   );
 }

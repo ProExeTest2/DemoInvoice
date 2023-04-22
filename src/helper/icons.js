@@ -13,4 +13,11 @@ export const icons = {
   rupee: require("../../assets/icons/rupee.png"),
   search: require("../../assets/icons/loupe.png"),
   settings: require("../../assets/icons/cogwheel.png"),
+
+  back: require("../../assets/icons/back.png"),
+  camera: require("../../assets/icons/camera.png"),
+  cancel: require("../../assets/icons/cancel.png"),
+  more: require("../../assets/icons/more.png"),
+  down: require("../../assets/icons/down.png"),
+  images: require("../../assets/icons/images.png"),
 };
