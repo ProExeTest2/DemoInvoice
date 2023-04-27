@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../../helper/colors";
 import { wp } from "../../helper/Global/responsive";
 
-const ToggleButton = ({ options, onSelect }) => {
-  const [isSelected, setIsSelected] = useState(0);
+const ToggleButton = ({ options, onSelect, defaultValue }) => {
+  const [isSelected, setIsSelected] = useState(defaultValue);
   useEffect(() => {
-    onSelect(options[0]);
+    //onSelect(defaultValue);
   }, []);
 
   return (
@@ -18,11 +18,11 @@ const ToggleButton = ({ options, onSelect }) => {
               styles.btn,
               {
                 backgroundColor:
-                  isSelected == index ? colors.green : colors.white,
+                  isSelected == item ? colors.green : colors.white,
               },
             ]}
             onPress={() => {
-              setIsSelected(index);
+              setIsSelected(item);
               onSelect(item);
             }}
           >
@@ -30,7 +30,7 @@ const ToggleButton = ({ options, onSelect }) => {
               style={[
                 styles.title,
                 {
-                  color: isSelected == index ? colors.white : colors.black,
+                  color: isSelected == item ? colors.white : colors.black,
                 },
               ]}
             >
@@ -49,9 +49,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.lightgray2,
     flexDirection: "row",
-    //marginVertical: 10,
     justifyContent: "space-evenly",
-    //marginHorizontal: 12,
     alignSelf: "center",
   },
 

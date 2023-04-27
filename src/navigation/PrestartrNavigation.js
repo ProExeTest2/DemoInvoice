@@ -1,5 +1,7 @@
 import DemoScreen from "../screens/Prestartr/DemoScreen";
 import DemoAnswer from "../screens/Prestartr/DemoAnswer";
+import DemoCompo from "../screens/Prestartr/DemoCompo";
+import PdfView from "../screens/PdfView";
 
 const { NavigationContainer } = require("@react-navigation/native");
 const {
@@ -17,6 +19,8 @@ const PrestartrNavigation = () => {
         }}
       >
         <Stack.Screen name="DemoScreen" component={DemoScreen} />
+        <Stack.Screen name="PdfView" component={PdfView} />
+        <Stack.Screen name="DemoCompo" component={DemoCompo} />
         <Stack.Screen name="DemoAnswer" component={DemoAnswer} />
       </Stack.Navigator>
     </NavigationContainer>

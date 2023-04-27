@@ -1,5 +1,6 @@
 import {
   Image,
+  Modal,
   PermissionsAndroid,
   Pressable,
   StyleSheet,
@@ -11,11 +12,11 @@ import { colors } from "../../helper/colors";
 import { icons } from "../../helper/icons";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { hp } from "../../helper/Global/responsive";
-import { FlatList } from "react-native-gesture-handler";
 
 const ImagePicker = ({ onSelect }) => {
   const [img, setImg] = useState([]);
   const [IsShow, setIsShow] = useState(false);
+  //const [modalVisible, setModalVisible] = useState(false);
   const requestCameraPermission = async () => {
     if (Platform.OS === "android") {
       try {
@@ -66,6 +67,7 @@ const ImagePicker = ({ onSelect }) => {
 
   const responseData = (response) => {
     console.log("Response = ", response);
+    let tempuri;
     if (response.didCancel) {
       alert("User cancelled camera picker");
       return;
@@ -81,7 +83,7 @@ const ImagePicker = ({ onSelect }) => {
     }
     response.assets.map((item) => {
       setImg([...img, item.uri]);
-      onSelect([...img, item.uri]);
+      onSelect(item.uri);
     });
   };
 
@@ -96,17 +98,16 @@ const ImagePicker = ({ onSelect }) => {
         <Image style={styles.btnimg} source={icons.more} />
         <Text style={styles.btntitle}>Add More Photos</Text>
       </Pressable>
-
-      <FlatList
-        style={{ maxHeight: 110, backgroundColor: "red", marginBottom: 10 }}
-        data={img}
-        horizontal
-        renderItem={({ item, index }) => {
-          return <Image style={styles.selectedimg} source={{ uri: item }} />;
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={IsShow}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setIsShow(!IsShow);
         }}
-      />
-      {IsShow ? (
-        <View style={styles.pickercontainer}>
+      >
+        <View style={styles.centeredView}>
           <Pressable
             style={styles.pickerbtn}
             onPress={() => {
@@ -143,9 +144,7 @@ const ImagePicker = ({ onSelect }) => {
             <Text style={styles.btntitle}>Cancel</Text>
           </Pressable>
         </View>
-      ) : null}
-
-      {/* <Image style={styles.selectedimg} source={{ uri: img }} /> */}
+      </Modal>
     </>
   );
 };
@@ -158,16 +157,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: colors.lightgray2,
     borderWidth: 2,
-    // shadowColor: colors.gray,
-    // shadowOpacity: 0.8,
-    // shadowOffset: { height: 2, width: 5 },
-    // shadowRadius: 10,
-    // elevation: 4,
+  },
+  centeredView: {
+    margin: 20,
+    borderColor: colors.border,
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    verticalAlign: "middle",
+    marginTop: hp(50),
   },
   pickerbtn: {
     flexDirection: "row",
     alignItems: "center",
-
     padding: 10,
   },
   btntitle: {
@@ -180,13 +182,5 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     tintColor: colors.orange,
-  },
-  selectedimg: {
-    height: 100,
-    width: 100,
-    alignSelf: "center",
-    borderWidth: 2,
-    borderColor: colors.black,
-    margin: 5,
   },
 });

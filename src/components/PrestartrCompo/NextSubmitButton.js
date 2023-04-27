@@ -4,7 +4,7 @@ import { colors } from "../../helper/colors";
 
 const NextSubmitButton = ({ title, onPress, style }) => {
   return (
-    <Pressable style={[styles.btncontainer, { style }]} onPress={onPress}>
+    <Pressable style={[styles.btncontainer, style]} onPress={onPress}>
       <Text style={styles.title}>{title}</Text>
     </Pressable>
   );

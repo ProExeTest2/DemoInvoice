@@ -14,4 +14,7 @@ export const colors = {
   orange: "rgb(248,126,35)",
   orangestatusbar: "rgb(220,112,31)",
   green: "rgb(0,105,20)",
+  textinputbg: "rgb(249,249,249)",
+  border: "rgb(229,229,229)",
+  textinputtextcolor: "rgb(0,56, 79)",
 };

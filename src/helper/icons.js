@@ -19,5 +19,8 @@ export const icons = {
   cancel: require("../../assets/icons/cancel.png"),
   more: require("../../assets/icons/more.png"),
   down: require("../../assets/icons/down.png"),
+  up: require("../../assets/icons/up.png"),
   images: require("../../assets/icons/images.png"),
+  checkbox_empty: require("../../assets/icons/empty-checkbox.png"),
+  checkbox_checked: require("../../assets/icons/checkbox.png"),
 };

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CustomTextInput from "./CustomTextInput";
 import { validateEmail } from "../../helper/Global/functions";
 
-const EmailTextInput = ({ onChangeEmail }) => {
+const EmailTextInput = ({ onChangeEmail, defaultValue }) => {
   const [Email, setEmail] = useState("");
   return (
     <>
@@ -14,9 +14,14 @@ const EmailTextInput = ({ onChangeEmail }) => {
           onChangeEmail(c);
         }}
         keyboardType="email-address"
+        defaultValue={defaultValue}
       />
       <Text style={{ color: "red" }}>
-        {validateEmail(Email) ? "Email is valid...!" : "Email is not valid...!"}
+        {Email == ""
+          ? ""
+          : validateEmail(Email)
+          ? ""
+          : "Email is not valid...!"}
       </Text>
     </>
   );

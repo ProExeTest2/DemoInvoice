@@ -101,3 +101,24 @@ export const ProductDummyData = [
     hsncode: 200,
   },
 ];
+/**{
+      "id": "A61994FB71C84EE98FCCB143D2A007",
+      "formid": "0F67C3749F5A2726979849B0D39D00",
+      "name": "F30",
+      "label": "Toggle Followed by text and photo",
+      "labelDE": "",
+      "labelFR": "",
+      "labelES": "",
+      "labelZH": "",
+      "labelMY": "",
+      "type": "toggle",
+      "seloptions": "1:Yes|0:Needs Attention|2:N/A",
+      "value": "",
+      "rank": 29,
+      "status": 0,
+      "mandatory": 0,
+      "onchange": "",
+      "columnwidth": "",
+      "hidden": 0,
+      "exportid": ""
+    }, */

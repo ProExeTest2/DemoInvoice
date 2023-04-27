@@ -11,10 +11,16 @@ const CustomTextInput = (props) => {
     maxLength,
     editable,
     defaultValue,
+    borderColor,
+    style,
   } = props;
   return (
     <TextInput
-      style={styles.textinput}
+      style={[
+        styles.textinput,
+        { borderColor: borderColor || colors.orange, paddingHorizontal: 15 },
+        style,
+      ]}
       placeholderTextColor={colors.lightgray2}
       placeholder={placeholder}
       onChangeText={onChangeText}
@@ -31,7 +37,7 @@ export default CustomTextInput;
 
 const styles = StyleSheet.create({
   textinput: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.textinputbg,
     borderColor: colors.orange,
     borderWidth: 2,
     borderRadius: 10,

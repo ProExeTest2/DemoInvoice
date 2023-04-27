@@ -1,4 +1,13 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  FlatList,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { colors } from "../../helper/colors";
 import Header from "../../components/PrestartrCompo/Header";
@@ -14,17 +23,18 @@ import MultiSelect from "react-native-multiple-select";
 import SelectDropdown from "react-native-select-dropdown";
 import PhoneInput from "react-native-phone-number-input";
 import { wp } from "../../helper/Global/responsive";
-import Signature from "react-native-signature-canvas";
-import CustomTimePicker from "../../components/PrestartrCompo/CustomTimePicker";
+import SignatureScreen from "react-native-signature-canvas";
 import EmailTextInput from "../../components/PrestartrCompo/EmailTextInput";
 import CustomCheckBox from "../../components/PrestartrCompo/CustomCheckBox";
 import CustomDateTime from "../../components/PrestartrCompo/CustomDateTime";
+import DemoCompo from "./DemoCompo";
+import CustomDropdown from "../../components/PrestartrCompo/CustomDropdown";
 
 const DemoScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const swiper = useRef(null);
   const phoneInput = useRef(null);
-
+  const refSign = useRef();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [multiselect, setMultiSelect] = useState([]);
   const [btnname, setbtnname] = useState("NEXT");
@@ -33,18 +43,17 @@ const DemoScreen = ({ navigation }) => {
   const [SelectedAnswer, setSelectedAnswer] = useState([]);
 
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const [signature, setSign] = useState(null);
   const [label, setlabel] = useState("");
   const [Type, setType] = useState("");
   const [selectedImg, setSelectedImg] = useState([]);
-  const style = `.m-signature-pad--footer
-    .button {
-      background-color: rgb(248,126,35;
-      color:rgb(147,162,172);
-    }`;
-
-  let hour = 0;
-  let minute = 0;
+  // const style = `.m-signature-pad--footer
+  //   .button {
+  //     background-color: rgb(248,126,35);
+  //     color:#fff;
+  //     fontWeight:'600';
+  //   }`;
+  const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
   let tempAnswer;
   let options = ["Yes", "No"];
   let multiselectoptions = [
@@ -58,58 +67,29 @@ const DemoScreen = ({ navigation }) => {
   useEffect(() => {
     if (isFocused) {
       let arr = [];
+      console.log("TTT", tmp.data);
       tmp.data.filter((item) => {
         if (item.type != "header") {
-          arr.push(item);
+          arr.push({
+            ...item,
+            selAns: "",
+          });
         }
         setViewableItems(arr);
         setlabel(arr[0]?.label);
       });
+      //refSign.current.getData(ViewableItems[activeIndex].selAns);
     }
   }, [isFocused]);
 
-  const onOptionSelect = (item) => {
-    tempAnswer = item;
-  };
-
   const onImageSelect = (value) => {
-    setSelectedImg(value);
-    //tempAnswer = value;
-  };
-
-  const handleOK = (signature) => {
-    //setSign(signature);
-    tempAnswer = signature;
-  };
-
-  const handleEmpty = () => {
-    console.log("Empty");
-  };
-
-  const onHourSelect = (hr) => {
-    hour = hr;
-    tempAnswer = hr + ":" + minute;
-  };
-
-  const onMinuteSelect = (min) => {
-    minute = min;
-    tempAnswer = hour + ":" + min;
-  };
-
-  const onSelectedItemsChange = (selectedItems) => {
-    setSelectedItems(selectedItems);
-    const temparr = [];
-    for (let i = 0; i < selectedItems.length; i++) {
-      var tempItem = multiselectoptions.find(
-        (item) => item.id === selectedItems[i]
-      );
-      temparr.push(tempItem.name);
-    }
-    setMultiSelect(temparr);
+    setSelectedImg([...selectedImg, value]);
+    console.log("Image Value", value);
+    ViewableItems[activeIndex].selAns = [...selectedImg, value];
   };
 
   const onChangeEmail = (value) => {
-    tempAnswer = value;
+    ViewableItems[activeIndex].selAns = value;
   };
 
   const setCheckBox = (value) => {
@@ -117,18 +97,123 @@ const DemoScreen = ({ navigation }) => {
   };
 
   const onSelectDate = (value) => {
-    tempAnswer = value;
+    console.log("Date ", value);
+    ViewableItems[activeIndex].selAns = value;
+  };
+  let sig;
+  const handleOK = (signature) => {
+    //console.log("handleOK ", signature);
+    setSign(signature);
+    sig = signature.split(",");
+    //console.log(" SIGNATURE ", sig[1]);
+    ViewableItems[activeIndex].selAns = signature;
+    //onOK(signature);
+  };
+  const handleEmpty = () => {
+    refSign.current.draw(ViewableItems[activeIndex].selAns);
+    console.log("Empty");
+  };
+  // Called after ref.current.clearSignature()
+  const handleClear = () => {
+    refSign.current.clearSignature();
+    console.log("clear success!");
+  };
+
+  const handleConfirm = () => {
+    console.log("end");
+    refSign.current.readSignature();
+  };
+
+  const onPressNextSubmit = () => {
+    console.log("inside next part...!");
+
+    Type == "selectmulti"
+      ? (ViewableItems[activeIndex].selAns = multiselect)
+      : null;
+    Type == "photo" ? (ViewableItems[activeIndex].selAns = selectedImg) : null;
+
+    if (ViewableItems[activeIndex].selAns !== null || "") {
+      console.log(
+        "inside next if part...!",
+        ViewableItems[activeIndex].selAns,
+        ViewableItems[activeIndex].label
+      );
+      setSelectedAnswer({
+        ...SelectedAnswer,
+        [label]: ViewableItems[activeIndex].selAns,
+      });
+      btnname === "SUBMIT"
+        ? navigation.navigate("DemoAnswer", { allAnswer: SelectedAnswer })
+        : swiper.current.scrollBy(1);
+    } else {
+      console.log(
+        "inside next else part...!",
+        ViewableItems[activeIndex].selAns,
+        ViewableItems[activeIndex].label
+      );
+      Alert.alert("ERROR", "Enter Valid Input...!");
+    }
   };
 
   const RenderField = ({ type, item }) => {
     switch (type) {
+      case "signature":
+        let tempSign;
+        return (
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <SignatureScreen
+              ref={refSign}
+              onOK={handleOK}
+              webStyle={style}
+              onEmpty={handleEmpty}
+              onGetData={() => {
+                ViewableItems[activeIndex].selAns;
+              }}
+            />
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Button title="Clear" onPress={handleClear} />
+              <Button title="Confirm" onPress={handleConfirm} />
+            </View>
+            <Image
+              resizeMode={"cover"}
+              style={{
+                width: 300,
+                height: 180,
+                paddingBottom: 20,
+                borderWidth: 1,
+                borderColor: "red",
+                resizeMode: "contain",
+              }}
+              source={{ uri: signature }}
+            />
+          </View>
+        );
       case "toggle":
         let v = item?.seloptions.split("|");
         options = [];
         v.map((i) => {
           options.push(i.slice(2));
         });
-        return <ToggleButton options={options} onSelect={onOptionSelect} />;
+        ViewableItems[activeIndex].selAns == null
+          ? (ViewableItems[activeIndex].selAns = options[0])
+          : null;
+        return (
+          <ToggleButton
+            options={options}
+            onSelect={(item) => {
+              ViewableItems[activeIndex].selAns = item;
+            }}
+            defaultValue={item?.selAns == "" ? options[0] : item.selAns}
+          />
+        );
 
       case "text":
       case "numeric":
@@ -136,9 +221,10 @@ const DemoScreen = ({ navigation }) => {
           <CustomTextInput
             placeholder={"Type Here.."}
             onChangeText={(c) => {
-              tempAnswer = c;
+              ViewableItems[activeIndex].selAns = c;
             }}
             keyboardType="number-pad"
+            defaultValue={item?.selAns}
           />
         );
 
@@ -148,13 +234,19 @@ const DemoScreen = ({ navigation }) => {
             placeholder={"Type Here.."}
             onChangeText={(c) => {
               //setTextInputValue(c);
-              tempAnswer = c;
+              ViewableItems[activeIndex].selAns = c;
             }}
+            defaultValue={item?.selAns}
           />
         );
 
       case "email":
-        return <EmailTextInput onChangeEmail={onChangeEmail} />;
+        return (
+          <EmailTextInput
+            onChangeEmail={onChangeEmail}
+            defaultValue={item?.selAns}
+          />
+        );
 
       case "phone":
         return (
@@ -163,13 +255,17 @@ const DemoScreen = ({ navigation }) => {
               ref={phoneInput}
               defaultValue={phoneNumber}
               defaultCode="IN"
-              layout="first"
+              layout="second"
               withShadow
-              containerStyle={styles.phoneNumberView}
+              containerStyle={[styles.phoneNumberView, { width: wp(85) }]}
               textContainerStyle={{ paddingVertical: 0 }}
               onChangeFormattedText={(text) => {
-                text?.length < 14 ? (tempAnswer = text) : "";
-                //setPhoneNumber(text);
+                if (text?.length < 14) {
+                  setPhoneNumber(text);
+                  ViewableItems[activeIndex].selAns = text;
+                } else {
+                  Alert.alert("Enter Valid Phone number");
+                }
               }}
             />
             <Text style={{ color: "red" }}>
@@ -180,37 +276,26 @@ const DemoScreen = ({ navigation }) => {
 
       case "photo":
         return (
-          <>
+          <View style={{ flex: 1, justifyContent: "space-between" }}>
             <ImagePicker onSelect={onImageSelect} />
+            <FlatList
+              style={
+                {
+                  //maxHeight: 110,
+                  // marginBottom: 10,
+                }
+              }
+              data={selectedImg}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => {
+                return (
+                  <Image style={styles.selectedimg} source={{ uri: item }} />
+                );
+              }}
+            />
             {/* <Image style={styles.selectedimg} source={{ uri: selectedImage }} /> */}
-          </>
-        );
-
-      case "selectmulti":
-        return (
-          <MultiSelect
-            hideTags
-            items={multiselectoptions}
-            uniqueKey="id"
-            styleMainWrapper={[
-              styles.phoneNumberView,
-              { borderColor: colors.lightgray2 },
-            ]}
-            onSelectedItemsChange={onSelectedItemsChange}
-            selectedItems={selectedItems}
-            selectText="Select Items"
-            searchInputPlaceholderText="Search Items Here..."
-            onChangeInput={(text) => console.log(text)}
-            tagRemoveIconColor="#CCC"
-            tagBorderColor="#000"
-            tagTextColor="#CCC"
-            selectedItemTextColor="#918E8E"
-            selectedItemIconColor="#918E8E"
-            itemTextColor="#000"
-            displayKey="name"
-            searchInputStyle={{ color: "#CCC" }}
-            hideSubmitButton={true}
-          />
+          </View>
         );
 
       case "date":
@@ -219,15 +304,21 @@ const DemoScreen = ({ navigation }) => {
             mode={"date"}
             onSelectDate={onSelectDate}
             format={"DD-MMM-YYYY"}
+            defaultDate={item?.selAns == "" ? new Date() : item?.selAns}
           />
         );
 
       case "time":
         return (
-          <CustomTimePicker
-            onSelectHours={onHourSelect}
-            onSelectMinute={onMinuteSelect}
+          <CustomDateTime
+            mode={"time"}
+            onSelectDate={onSelectDate}
+            format={"HH:MM:SS"}
           />
+          // <CustomTimePicker
+          //   onSelectHours={onHourSelect}
+          //   onSelectMinute={onMinuteSelect}
+          // />
         );
 
       case "datetime":
@@ -243,49 +334,27 @@ const DemoScreen = ({ navigation }) => {
       case "contact":
       case "project":
       case "company":
+      case "selectmulti":
         let m = item?.seloptions.split("|");
-        tempAnswer = m[0];
+        options = [];
+        let id = 0;
+        m.map((i) => {
+          options.push({ name: i, id: id });
+          id++;
+        });
         return (
-          <SelectDropdown
-            buttonStyle={{
-              width: wp(80),
-              borderColor: colors.orange,
-              borderWidth: 2,
-              borderRadius: 10,
-            }}
-            data={m}
-            onSelect={(selectedItem, index) => {
-              tempAnswer = selectedItem;
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
+          <CustomDropdown
+            dataArray={options}
+            onSelect={(value) => {
+              ViewableItems[activeIndex].selAns = value;
             }}
           />
         );
 
       case "checkbox":
         let n = item?.seloptions.split("|");
-        return n.map((item) => (
-          <CustomCheckBox title={item} setCheckBox={setCheckBox} />
-        ));
-
-      case "sign":
         return (
-          <View style={{ flex: 1 }}>
-            <Signature
-              // style={{ height: hp(80), width: wp(70), backgroundColor: "red" }}
-              onOK={handleOK}
-              onEmpty={handleEmpty}
-              descriptionText="Sign"
-              clearText="Clear"
-              confirmText="Save"
-              webStyle={style}
-              scrollable={false}
-            />
-          </View>
+          <CustomCheckBox title={item?.seloptions} setCheckBox={setCheckBox} />
         );
 
       default:
@@ -293,29 +362,18 @@ const DemoScreen = ({ navigation }) => {
     }
   };
 
-  const onPressNextSubmit = (value) => {
-    // console.log("Before.....", label, value);
-
-    setSelectedAnswer({
-      ...SelectedAnswer,
-      [label]: value,
-    });
-    let a = 6 + 6;
-    //console.log(a);
-    // console.log("After.....", label, SelectedAnswer);
-  };
-
   return (
     <>
       <Header
         onPressLeft={() => {
-          swiper.current.scrollBy(-1);
+          activeIndex > 0 ? swiper.current.scrollBy(-1) : null;
         }}
       />
       <SafeAreaView style={styles.demomaincontainer}>
         <Text style={styles.countertext}>
           {activeIndex + 1} of {ViewableItems.length.toString()}
         </Text>
+
         <ProgressBar
           progressStatus={(activeIndex * 104) / ViewableItems.length}
         />
@@ -339,13 +397,7 @@ const DemoScreen = ({ navigation }) => {
           {ViewableItems?.map((item) => {
             return (
               <>
-                <Text style={styles.label}>
-                  {item.label.toString() +
-                    "\n" +
-                    item.type.toString() +
-                    "\n" +
-                    activeIndex.toString()}
-                </Text>
+                <Text style={styles.label}>{item.label.toString()}</Text>
                 <RenderField type={item.type.toString()} item={item} />
               </>
             );
@@ -355,11 +407,7 @@ const DemoScreen = ({ navigation }) => {
         <NextSubmitButton
           title={btnname}
           onPress={() => {
-            onPressNextSubmit(Type == "selectmulti" ? multiselect : tempAnswer);
-
-            btnname === "SUBMIT"
-              ? navigation.navigate("DemoAnswer", { allAnswer: SelectedAnswer })
-              : swiper.current.scrollBy(1);
+            onPressNextSubmit();
           }}
         />
       </SafeAreaView>
@@ -386,7 +434,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 10,
+    marginVertical: 10,
   },
   selectedimg: {
     height: 150,
@@ -397,11 +445,71 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   phoneNumberView: {
-    //width: wp(80),
-    // height: 50,
-    //backgroundColor: "white",
+    width: wp(90),
     borderRadius: 10,
     borderColor: colors.orange,
     borderWidth: 2,
   },
+  selectedimg: {
+    height: 100,
+    width: 100,
+    alignSelf: "center",
+    margin: 5,
+  },
 });
+// <SelectDropdown
+//   buttonStyle={{
+//     width: wp(80),
+//     borderColor: colors.orange,
+//     borderWidth: 2,
+//     borderRadius: 10,
+//   }}
+//   data={m}
+//   defaultValue={item.selAns == "" ? m[0] : item.selAns}
+//   onSelect={(selectedItem, index) => {
+//     ViewableItems[activeIndex].selAns = selectedItem;
+//   }}
+//   buttonTextAfterSelection={(selectedItem, index) => {
+//     return selectedItem;
+//   }}
+//   rowTextForSelection={(item, index) => {
+//     return item;
+//   }}
+// />
+// case "selectmulti":
+//         return (
+//           <MultiSelect
+//             hideTags
+//             items={multiselectoptions}
+//             uniqueKey="id"
+//             styleMainWrapper={[
+//               styles.phoneNumberView,
+//               { borderColor: colors.lightgray2 },
+//             ]}
+//             onSelectedItemsChange={onSelectedItemsChange}
+//             selectedItems={selectedItems}
+//             selectText="Select Items"
+//             searchInputPlaceholderText="Search Items Here..."
+//             onChangeInput={(text) => console.log(text)}
+//             tagRemoveIconColor="#CCC"
+//             tagBorderColor="#000"
+//             tagTextColor="#CCC"
+//             selectedItemTextColor="#918E8E"
+//             selectedItemIconColor="#918E8E"
+//             itemTextColor="#000"
+//             displayKey="name"
+//             searchInputStyle={{ color: "#CCC" }}
+//             hideSubmitButton={true}
+//           />
+//         );
+/*const onSelectedItemsChange = (selectedItems) => {
+  setSelectedItems(selectedItems);
+  const temparr = [];
+  for (let i = 0; i < selectedItems.length; i++) {
+    var tempItem = multiselectoptions.find(
+      (item) => item.id === selectedItems[i]
+    );
+    temparr.push(tempItem.name);
+  }
+  setMultiSelect(temparr);
+};*/
