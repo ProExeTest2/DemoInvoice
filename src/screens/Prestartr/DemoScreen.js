@@ -41,28 +41,14 @@ const DemoScreen = ({ navigation }) => {
   const [ViewableItems, setViewableItems] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [SelectedAnswer, setSelectedAnswer] = useState([]);
-
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [signature, setSign] = useState(null);
+  const [signature, setSign] = useState();
   const [label, setlabel] = useState("");
   const [Type, setType] = useState("");
   const [selectedImg, setSelectedImg] = useState([]);
-  // const style = `.m-signature-pad--footer
-  //   .button {
-  //     background-color: rgb(248,126,35);
-  //     color:#fff;
-  //     fontWeight:'600';
-  //   }`;
+
   const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
   let tempAnswer;
   let options = ["Yes", "No"];
-  let multiselectoptions = [
-    { id: 1, name: "option1" },
-    { id: 2, name: "option2" },
-    { id: 3, name: "option3" },
-    { id: 4, name: "option4" },
-    { id: 5, name: "option5" },
-  ];
 
   useEffect(() => {
     if (isFocused) {
@@ -78,7 +64,8 @@ const DemoScreen = ({ navigation }) => {
         setViewableItems(arr);
         setlabel(arr[0]?.label);
       });
-      //refSign.current.getData(ViewableItems[activeIndex].selAns);
+    } else {
+      console.log("in else is focused");
     }
   }, [isFocused]);
 
@@ -100,20 +87,19 @@ const DemoScreen = ({ navigation }) => {
     console.log("Date ", value);
     ViewableItems[activeIndex].selAns = value;
   };
-  let sig;
-  const handleOK = (signature) => {
-    //console.log("handleOK ", signature);
-    setSign(signature);
-    sig = signature.split(",");
-    //console.log(" SIGNATURE ", sig[1]);
-    ViewableItems[activeIndex].selAns = signature;
-    //onOK(signature);
+
+  const handleOK = (sign) => {
+    console.log("handleOK ");
+    setSign(sign);
+    // sig = sign.split(",");
+    ViewableItems[activeIndex].selAns = sign;
   };
+
   const handleEmpty = () => {
-    refSign.current.draw(ViewableItems[activeIndex].selAns);
+    refSign.current.draw(signature);
     console.log("Empty");
   };
-  // Called after ref.current.clearSignature()
+
   const handleClear = () => {
     refSign.current.clearSignature();
     console.log("clear success!");
@@ -124,78 +110,59 @@ const DemoScreen = ({ navigation }) => {
     refSign.current.readSignature();
   };
 
+  const handleEnd = () => {
+    refSign.current.readSignature();
+  };
+
   const onPressNextSubmit = () => {
     console.log("inside next part...!");
-
-    Type == "selectmulti"
-      ? (ViewableItems[activeIndex].selAns = multiselect)
-      : null;
     Type == "photo" ? (ViewableItems[activeIndex].selAns = selectedImg) : null;
 
+    Type == "signature"
+      ? (ViewableItems[activeIndex].selAns = signature)
+      : null;
     if (ViewableItems[activeIndex].selAns !== null || "") {
-      console.log(
-        "inside next if part...!",
-        ViewableItems[activeIndex].selAns,
-        ViewableItems[activeIndex].label
-      );
       setSelectedAnswer({
         ...SelectedAnswer,
         [label]: ViewableItems[activeIndex].selAns,
       });
+
       btnname === "SUBMIT"
         ? navigation.navigate("DemoAnswer", { allAnswer: SelectedAnswer })
         : swiper.current.scrollBy(1);
-    } else {
-      console.log(
-        "inside next else part...!",
-        ViewableItems[activeIndex].selAns,
-        ViewableItems[activeIndex].label
-      );
-      Alert.alert("ERROR", "Enter Valid Input...!");
     }
   };
 
   const RenderField = ({ type, item }) => {
     switch (type) {
       case "signature":
-        let tempSign;
         return (
           <View style={{ flex: 1, alignItems: "center" }}>
+            <Text
+              title=""
+              onPress={handleClear}
+              style={{
+                color: colors.textinputtextcolor,
+                fontSize: 16,
+                fontWeight: "600",
+                alignSelf: "flex-end",
+              }}
+            >
+              Clear
+            </Text>
             <SignatureScreen
               ref={refSign}
               onOK={handleOK}
               webStyle={style}
               onEmpty={handleEmpty}
-              onGetData={() => {
-                ViewableItems[activeIndex].selAns;
-              }}
-            />
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Button title="Clear" onPress={handleClear} />
-              <Button title="Confirm" onPress={handleConfirm} />
-            </View>
-            <Image
-              resizeMode={"cover"}
-              style={{
-                width: 300,
-                height: 180,
-                paddingBottom: 20,
-                borderWidth: 1,
-                borderColor: "red",
-                resizeMode: "contain",
-              }}
-              source={{ uri: signature }}
+              dataURL={signature}
+              onEnd={handleEnd}
+              scrollable={false}
+              autoClear={false}
             />
           </View>
         );
+
       case "toggle":
         let v = item?.seloptions.split("|");
         options = [];
@@ -315,10 +282,6 @@ const DemoScreen = ({ navigation }) => {
             onSelectDate={onSelectDate}
             format={"HH:MM:SS"}
           />
-          // <CustomTimePicker
-          //   onSelectHours={onHourSelect}
-          //   onSelectMinute={onMinuteSelect}
-          // />
         );
 
       case "datetime":
@@ -457,59 +420,3 @@ const styles = StyleSheet.create({
     margin: 5,
   },
 });
-// <SelectDropdown
-//   buttonStyle={{
-//     width: wp(80),
-//     borderColor: colors.orange,
-//     borderWidth: 2,
-//     borderRadius: 10,
-//   }}
-//   data={m}
-//   defaultValue={item.selAns == "" ? m[0] : item.selAns}
-//   onSelect={(selectedItem, index) => {
-//     ViewableItems[activeIndex].selAns = selectedItem;
-//   }}
-//   buttonTextAfterSelection={(selectedItem, index) => {
-//     return selectedItem;
-//   }}
-//   rowTextForSelection={(item, index) => {
-//     return item;
-//   }}
-// />
-// case "selectmulti":
-//         return (
-//           <MultiSelect
-//             hideTags
-//             items={multiselectoptions}
-//             uniqueKey="id"
-//             styleMainWrapper={[
-//               styles.phoneNumberView,
-//               { borderColor: colors.lightgray2 },
-//             ]}
-//             onSelectedItemsChange={onSelectedItemsChange}
-//             selectedItems={selectedItems}
-//             selectText="Select Items"
-//             searchInputPlaceholderText="Search Items Here..."
-//             onChangeInput={(text) => console.log(text)}
-//             tagRemoveIconColor="#CCC"
-//             tagBorderColor="#000"
-//             tagTextColor="#CCC"
-//             selectedItemTextColor="#918E8E"
-//             selectedItemIconColor="#918E8E"
-//             itemTextColor="#000"
-//             displayKey="name"
-//             searchInputStyle={{ color: "#CCC" }}
-//             hideSubmitButton={true}
-//           />
-//         );
-/*const onSelectedItemsChange = (selectedItems) => {
-  setSelectedItems(selectedItems);
-  const temparr = [];
-  for (let i = 0; i < selectedItems.length; i++) {
-    var tempItem = multiselectoptions.find(
-      (item) => item.id === selectedItems[i]
-    );
-    temparr.push(tempItem.name);
-  }
-  setMultiSelect(temparr);
-};*/
