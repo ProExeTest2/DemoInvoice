@@ -1,58 +1,68 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, View, Button } from "react-native";
-import SignatureScreen from "react-native-signature-canvas";
+import { StyleSheet, View, Image, StatusBar } from "react-native";
+import Signature from "react-native-signature-canvas";
 
-const we = ({ onOK }) => {
-  const ref = useRef();
-  const [signature, setSign] = useState();
-
-  const handleOK = (signature) => {
-    //console.log(signature);
-    setSign(signature);
+const App = () => {
+  const [signature, setSign] = useState(null);
+  const refSign = useRef();
+  const handleOK = async (signature) => {
+    console.log("handle ok", signature);
+    await setSign(signature);
   };
 
-  const handleClear = () => {
-    ref.current.clearSignature();
+  const handleEmpty = () => {
+    console.log("Empty");
   };
-
-  const handleConfirm = () => {
-    console.log("end");
-    ref.current.readSignature();
+  const handleEnd = async () => {
+    await refSign.current.readSignature();
   };
-
+  // const style = `.m-signature-pad--footer
+  //   .button {
+  //     background-color: red;
+  //     color: #FFF;
+  //   }`;
   const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
 
   return (
     <View style={styles.container}>
-      <SignatureScreen
-        ref={ref}
-        onOK={handleOK}
-        webStyle={style}
-        dataURL={signature}
+      <Image
+        resizeMode={"contain"}
+        style={styles.image}
+        source={{ uri: signature }}
       />
-      <View style={styles.row}>
-        <Button title="Clear" onPress={handleClear} />
-        <Button title="Confirm" onPress={handleConfirm} />
-      </View>
+
+      <Signature
+        ref={refSign}
+        onOK={handleOK}
+        onEmpty={handleEmpty}
+        webStyle={style}
+        onEnd={handleEnd}
+        autoClear={false}
+        //dataURL={signature}
+      />
+      <StatusBar />
     </View>
   );
 };
 
-export default we;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 250,
-    padding: 10,
+    padding: 20,
   },
-  row: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
+  preview: {
+    backgroundColor: "#c6c3c3",
+    justifyContent: "center",
     alignItems: "center",
+    marginTop: 15,
+    marginBottom: 20,
+  },
+  image: {
+    width: 335,
+    height: 200,
+    borderWidth: 1,
+    borderColor: "red",
   },
 });
+
+export default App;

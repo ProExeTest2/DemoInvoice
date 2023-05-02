@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
   FlatList,
   Image,
   SafeAreaView,
@@ -19,24 +18,23 @@ import ToggleButton from "../../components/PrestartrCompo/ToggleButton";
 import tmp from "../../helper/Data/tmp.json";
 import Swiper from "react-native-swiper";
 import { useIsFocused } from "@react-navigation/native";
-import MultiSelect from "react-native-multiple-select";
-import SelectDropdown from "react-native-select-dropdown";
 import PhoneInput from "react-native-phone-number-input";
 import { wp } from "../../helper/Global/responsive";
 import SignatureScreen from "react-native-signature-canvas";
 import EmailTextInput from "../../components/PrestartrCompo/EmailTextInput";
 import CustomCheckBox from "../../components/PrestartrCompo/CustomCheckBox";
 import CustomDateTime from "../../components/PrestartrCompo/CustomDateTime";
-import DemoCompo from "./DemoCompo";
 import CustomDropdown from "../../components/PrestartrCompo/CustomDropdown";
+import Signature from "react-native-signature-canvas";
 
 const DemoScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
+
   const swiper = useRef(null);
   const phoneInput = useRef(null);
   const refSign = useRef();
+
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [multiselect, setMultiSelect] = useState([]);
   const [btnname, setbtnname] = useState("NEXT");
   const [ViewableItems, setViewableItems] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -46,9 +44,10 @@ const DemoScreen = ({ navigation }) => {
   const [Type, setType] = useState("");
   const [selectedImg, setSelectedImg] = useState([]);
 
+  const [signature1, setSign1] = useState(null);
+
   const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
   let tempAnswer;
-  let options = ["Yes", "No"];
 
   useEffect(() => {
     if (isFocused) {
@@ -88,39 +87,29 @@ const DemoScreen = ({ navigation }) => {
     ViewableItems[activeIndex].selAns = value;
   };
 
-  const handleOK = (sign) => {
-    console.log("handleOK ");
-    setSign(sign);
-    // sig = sign.split(",");
-    ViewableItems[activeIndex].selAns = sign;
-  };
-
-  const handleEmpty = () => {
-    refSign.current.draw(signature);
-    console.log("Empty");
-  };
-
-  const handleClear = () => {
-    refSign.current.clearSignature();
+  const handleClear = async () => {
+    await refSign.current.clearSignature();
     console.log("clear success!");
   };
 
-  const handleConfirm = () => {
-    console.log("end");
-    refSign.current.readSignature();
+  const handleOK = async (signature) => {
+    console.log("handle ok", signature);
+    await setSign(signature);
   };
 
-  const handleEnd = () => {
-    refSign.current.readSignature();
+  const handleEmpty = () => {
+    console.log("Empty");
   };
-
+  const handleEnd = async () => {
+    await refSign.current.readSignature();
+  };
   const onPressNextSubmit = () => {
     console.log("inside next part...!");
     Type == "photo" ? (ViewableItems[activeIndex].selAns = selectedImg) : null;
 
-    Type == "signature"
-      ? (ViewableItems[activeIndex].selAns = signature)
-      : null;
+    // Type == "signature"
+    //   ? (ViewableItems[activeIndex].selAns = signature)
+    //   : null;
     if (ViewableItems[activeIndex].selAns !== null || "") {
       setSelectedAnswer({
         ...SelectedAnswer,
@@ -135,33 +124,29 @@ const DemoScreen = ({ navigation }) => {
 
   const RenderField = ({ type, item }) => {
     switch (type) {
-      case "signature":
-        return (
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text
-              title=""
-              onPress={handleClear}
-              style={{
-                color: colors.textinputtextcolor,
-                fontSize: 16,
-                fontWeight: "600",
-                alignSelf: "flex-end",
-              }}
-            >
-              Clear
-            </Text>
-            <SignatureScreen
-              ref={refSign}
-              onOK={handleOK}
-              webStyle={style}
-              onEmpty={handleEmpty}
-              dataURL={signature}
-              onEnd={handleEnd}
-              scrollable={false}
-              autoClear={false}
-            />
-          </View>
-        );
+      // case "signature":
+      //   return (
+      //     <View style={{ flex: 1, alignItems: "center" }}>
+      //       <Text style={styles.signatureclearbtn} onPress={handleClear}>
+      //         Clear
+      //       </Text>
+      //       <Signature
+      //         ref={refSign}
+      //         onOK={handleOK}
+      //         onEmpty={handleEmpty}
+      //         webStyle={style}
+      //         onEnd={handleEnd}
+      //         scrollable={false}
+      //         autoClear={false}
+      //         //dataURL={signature}
+      //       />
+      //       {/* <Image
+      //         resizeMode={"contain"}
+      //         style={styles.image}
+      //         source={{ uri: signature }}
+      //       /> */}
+      //     </View>
+      //   );
 
       case "toggle":
         let v = item?.seloptions.split("|");
@@ -362,6 +347,26 @@ const DemoScreen = ({ navigation }) => {
               <>
                 <Text style={styles.label}>{item.label.toString()}</Text>
                 <RenderField type={item.type.toString()} item={item} />
+                {item.type.toString() === "signature" ? (
+                  <View style={{ flex: 1, alignItems: "center" }}>
+                    <Text
+                      style={styles.signatureclearbtn}
+                      onPress={handleClear}
+                    >
+                      Clear
+                    </Text>
+                    <Signature
+                      ref={refSign}
+                      onOK={handleOK}
+                      onEmpty={handleEmpty}
+                      webStyle={style}
+                      onEnd={handleEnd}
+                      scrollable={false}
+                      autoClear={false}
+                      //dataURL={signature}
+                    />
+                  </View>
+                ) : null}
               </>
             );
           })}
@@ -418,5 +423,24 @@ const styles = StyleSheet.create({
     width: 100,
     alignSelf: "center",
     margin: 5,
+  },
+  signatureclearbtn: {
+    color: colors.textinputtextcolor,
+    fontSize: 16,
+    fontWeight: "600",
+    alignSelf: "flex-end",
+  },
+  preview: {
+    backgroundColor: "#c6c3c3",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 20,
+  },
+  image: {
+    width: 335,
+    height: 200,
+    borderWidth: 1,
+    borderColor: "red",
   },
 });
